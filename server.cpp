@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <sys/select.h>
+#include <fstream> 
 
 #define SOH 0x01  // Start of Header
 #define EOT 0x04  // End of Transmission
@@ -163,7 +164,18 @@ void logMessage(const std::string& logType, const std::string& message) {
     time_t now = time(0);
     char* dt = ctime(&now);
     dt[strlen(dt)-1] = '\0'; // Remove the newline
+
+    // Log to console
     std::cout << "[" << dt << "] [" << logType << "] " << message << std::endl;
+
+    // Log to a file
+    std::ofstream logFile("server_log.txt", std::ios::app);  // Append to the log file
+    if (logFile.is_open()) {
+        logFile << "[" << dt << "] [" << logType << "] " << message << std::endl;
+        logFile.close();
+    } else {
+        std::cerr << "Unable to open log file." << std::endl;
+    }
 }
 
 // Helper function to frame messages with SOH and EOT
@@ -393,6 +405,7 @@ void serverLoop(int listenSock, int connectedSock) {
         }
     }
 }
+
 
 // Main entry point of the server program
 int main(int argc, char *argv[]) {

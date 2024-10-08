@@ -1,0 +1,27 @@
+[Tue Oct  8 21:35:42 2024] [INFO] Server started on port 60000
+[Tue Oct  8 21:35:42 2024] [INFO] Server started main loop
+[Tue Oct  8 21:36:49 2024] [INFO] New client/server connected on socket 5
+[Tue Oct  8 21:36:49 2024] [INFO] Client IP: 127.0.0.1 Port: 41354
+[Tue Oct  8 21:36:58 2024] [INFO] Received data on socket 5: HELO
+[Tue Oct  8 21:36:58 2024] [DEBUG] Raw command received: [HELO]
+[Tue Oct  8 21:36:58 2024] [DEBUG] Trimmed command for processing: [HELO]
+[Tue Oct  8 21:36:58 2024] [INFO] Received command: HELO from socket: 5
+[Tue Oct  8 21:36:58 2024] [ERROR] Unknown command: HELO
+[Tue Oct  8 21:37:50 2024] [INFO] Received data on socket 5: HELO,A5_1
+[Tue Oct  8 21:37:50 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Tue Oct  8 21:37:50 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Tue Oct  8 21:37:50 2024] [INFO] Received command: HELO from socket: 5
+[Tue Oct  8 21:37:50 2024] [ERROR] Unknown command: HELO
+[Tue Oct  8 21:37:53 2024] [INFO] Received data on socket 5: HELO,A5_1
+[Tue Oct  8 21:37:53 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Tue Oct  8 21:37:53 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Tue Oct  8 21:37:53 2024] [INFO] Received command: HELO from socket: 5
+[Tue Oct  8 21:37:53 2024] [ERROR] Unknown command: HELO
+[Tue Oct  8 21:38:00 2024] [INFO] Connection closed on socket: 5
+[Tue Oct  8 21:38:19 2024] [INFO] New client/server connected on socket 5
+[Tue Oct  8 21:38:19 2024] [INFO] Client IP: 127.0.0.1 Port: 35172
+[Tue Oct  8 21:38:29 2024] [INFO] Received data on socket 5: LISTSERVERS
+[Tue Oct  8 21:38:29 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Tue Oct  8 21:38:29 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Tue Oct  8 21:38:29 2024] [INFO] Received command: LISTSERVERS from socket: 5
+[Tue Oct  8 21:38:29 2024] [ERROR] Unknown command: LISTSERVERS
