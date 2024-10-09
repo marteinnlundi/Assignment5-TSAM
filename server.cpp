@@ -1,5 +1,5 @@
 // Compile: g++ server.cpp -o tsamgroup1 -pthread
-// Usage: ./tsamgroup1 60000
+// Usage: ./tsamgroup1 60000 130.208.246.249 5001 5005
 
 #include <iostream>
 #include <vector>
@@ -20,13 +20,17 @@
 #include <cstdlib>
 #include <ctime>
 #include <sys/select.h>
-#include <fstream> 
+#include <fstream>
+#include <sys/stat.h>
 
 #define SOH 0x01  // Start of Header
 #define EOT 0x04  // End of Transmission
 #define MAX_BUFFER 5000
 #define BACKLOG 5  // Maximum number of queued connections
 #define TIMEOUT_SEC 5  // 5-second timeout for waiting for server response
+#define MAX_LOG_FILE_SIZE 1024 * 1024 * 5  // 5MB max log size
+#define LOG_FILE "server_log.txt"
+#define ROTATED_LOG_FILE "server_log_old.txt"
 
 // Structure to hold server information
 struct ServerInfo {
@@ -37,15 +41,8 @@ struct ServerInfo {
     time_t lastKeepAlive; // Timestamp of the last KEEPALIVE message
 };
 
-// Predefined list of instructor servers
-std::vector<ServerInfo> serverList = {
-    {"Instr_1", "130.208.246.249", 5001, -1, 0},
-    {"Instr_2", "130.208.246.249", 5002, -1, 0},
-    {"Instr_3", "130.208.246.249", 5003, -1, 0},
-    {"Instr_4", "130.208.246.249", 5004, -1, 0},
-    {"Instr_5", "130.208.246.249", 5005, -1, 0}
-};
 
+std::vector<ServerInfo> serverList; // Dynamic list of instructor servers
 std::map<int, ServerInfo> connectedServers; // Map for connected servers and their information
 std::map<std::string, std::vector<std::string>> storedMessages; // Map for stored messages per group
 std::map<int, std::string> clientNames; // For client connections
@@ -53,6 +50,8 @@ std::map<int, std::string> clientNames; // For client connections
 std::string currentServerName = "A5_1";  // Update this as needed
 std::string currentServerIP = "89.160.229.150";  // The current server's IP address (Rasp PI behind Fortigate using port mapping)
 int port;  // The port this server is listening on
+
+std::ofstream logFile; // Setup the log file
 
 // Choose a random server from the list
 ServerInfo chooseRandomServer() {
@@ -159,7 +158,22 @@ void receiveServerResponse(int sockfd) {
     }
 }
 
-// Logging helper
+// Function to rotate log file if it exceeds the max size
+void rotateLogFile() {
+    struct stat logFileInfo;
+    if (stat(LOG_FILE, &logFileInfo) == 0 && logFileInfo.st_size >= MAX_LOG_FILE_SIZE) {
+        // Close current log file
+        logFile.close();
+
+        // Rename the old log file
+        rename(LOG_FILE, ROTATED_LOG_FILE);
+
+        // Re-open a new log file
+        logFile.open(LOG_FILE, std::ios::out | std::ios::app);
+    }
+}
+
+// Logs messages to a file
 void logMessage(const std::string& logType, const std::string& message) {
     time_t now = time(0);
     char* dt = ctime(&now);
@@ -167,15 +181,26 @@ void logMessage(const std::string& logType, const std::string& message) {
 
     // Log to console
     std::cout << "[" << dt << "] [" << logType << "] " << message << std::endl;
+    std::string logEntry = "[" + std::string(dt) + "] [" + logType + "] " + message + "\n";
 
-    // Log to a file
-    std::ofstream logFile("server_log.txt", std::ios::app);  // Append to the log file
-    if (logFile.is_open()) {
-        logFile << "[" << dt << "] [" << logType << "] " << message << std::endl;
-        logFile.close();
-    } else {
-        std::cerr << "Unable to open log file." << std::endl;
+    // Write to log file
+    logFile << logEntry;
+    logFile.flush();
+    
+    // Rotate log file if it exceeds max size
+    rotateLogFile();
+}
+
+// Dynamically populate the connection server list based on provided arguments
+// TODO: Þarf að laga einhvernvegin server names, kanski gera ping taka server name og populate-a
+void populateServerList(const std::string &ipAddress, int portStart, int portEnd) {
+    serverList.clear();
+    int groupNumber = 1;
+    for (int port = portStart; port <= portEnd; ++port) {
+        serverList.push_back({"CONNECTION_SERVER_" + std::to_string(groupNumber), ipAddress, port, -1, 0});
+        ++groupNumber;
     }
+    logMessage("INFO", "Populated server list with IP: " + ipAddress + " and ports from " + std::to_string(portStart) + " to " + std::to_string(portEnd));
 }
 
 // Helper function to frame messages with SOH and EOT
@@ -409,13 +434,26 @@ void serverLoop(int listenSock, int connectedSock) {
 
 // Main entry point of the server program
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: ./tsamgroup1 <port>" << std::endl;
+    if (argc != 5) {
+        std::cerr << "Usage: ./tsamgroup1 SERVER_PORT CONNECTION_SERVER_IP CONNECTION_SERVER_PORT_START CONNECTION_SERVER_PORT_END" << std::endl;
         return EXIT_FAILURE;
     }
 
-    // Assign the command-line port to the global port variable
-    port = atoi(argv[1]);  // Use the global `port` variable here
+    // Assign the command-line arguments
+    port = atoi(argv[1]);
+    currentServerIP = argv[2];
+    int connectionServerPortStart = atoi(argv[3]);
+    int connectionServerPortEnd = atoi(argv[4]);
+
+    // Open the log file for writing
+    logFile.open(LOG_FILE, std::ios::out | std::ios::app);
+    if (!logFile) {
+        std::cerr << "Failed to open log file" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    // Populate the server list dynamically based on command-line arguments
+    populateServerList(currentServerIP, connectionServerPortStart, connectionServerPortEnd);
 
     int listenSock = socket(AF_INET, SOCK_STREAM, 0);
     if (listenSock < 0) {
