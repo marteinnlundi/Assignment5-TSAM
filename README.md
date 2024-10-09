@@ -1,9 +1,11 @@
+
 # Botnet Saves the World - Assignment 5
 
 ## Overview
 
 This project implements a store-and-forward botnet message server with a Command and Control (C&C) client. The goal is to create a decentralized messaging network that can continue functioning during network failures.
 
+<<<<<<< HEAD
 ## Features:
 - Peer-to-peer server communication
 - Client-server messaging
@@ -15,20 +17,37 @@ This project implements a store-and-forward botnet message server with a Command
 - **Language**: C++
 - **Compiler**: g++ (C++11 or later)
 
+=======
+>>>>>>> 84cb8ee (Ein todo skilo)
 ## Files
 - `client.cpp`: Client-side implementation.
 - `server.cpp`: Server-side implementation.
 - `server_log.txt`: Log file with all server activities.
 - `server_log_old.txt`: Extra log file for when the main one is larger then 5MB.
 
-## Compilation
+## How to Compile
+
+You can use the provided `Makefile` to compile both the client and server. To compile the project, run:
 
 ```bash
-g++ client.cpp -o client
-g++ server.cpp -o tsamgroup1 -pthread
+make
 ```
 
-## Running the Server
+If you need to clean the previous build files, use:
+
+```bash
+make clean
+```
+
+This will generate two executable files:  
+- `client`: The client executable  
+- `tsamgroup1`: The server executable
+
+## How to Run
+
+### Running the Server
+
+To start the server, use the following command:
 
 ```bash
 ./tsamgroup1 <port> <servers_to_connect_to> <begining_port_for_connected_servers> <ending_port_for_connected_servers>
@@ -38,11 +57,49 @@ Copy/paste cmd to talk to instruction servers
 ./tsamgroup1 60000 130.208.246.249 5001 5005
 ```
 
-## Running the Client
+Example:
+
+```bash
+./tsamgroup1 60000
+```
+
+### Running the Client
+
+To run the client and connect to the server:
 
 ```bash
 ./client <server_ip> <server_port>
 ```
+
+Example:
+
+```bash
+./client 127.0.0.1 60000
+```
+
+## Telnet for Manual Testing
+
+You can also use `telnet` to manually test the server. Here’s how you can do it:
+
+1. **Connect to the server using `telnet`:**
+
+```bash
+telnet <server_ip> <server_port>
+```
+
+Example:
+
+```bash
+telnet 127.0.0.1 60000
+```
+
+2. **Send commands** like `HELO` or `LISTSERVERS` directly after connecting. For example:
+
+```bash
+HELO,A5_1
+```
+
+3. **Close the connection** manually by typing `Ctrl + ]` to return to the telnet prompt, then `quit`.
 
 ## Commands
 

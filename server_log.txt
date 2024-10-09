@@ -25,3 +25,9 @@
 [Tue Oct  8 21:38:29 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
 [Tue Oct  8 21:38:29 2024] [INFO] Received command: LISTSERVERS from socket: 5
 [Tue Oct  8 21:38:29 2024] [ERROR] Unknown command: LISTSERVERS
+[Wed Oct  9 08:39:09 2024] [INFO] Server started on port 60000
+[Wed Oct  9 08:39:09 2024] [INFO] Server started main loop
+[Wed Oct  9 08:40:01 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 08:40:11 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 08:40:32 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 08:41:50 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
