@@ -2,6 +2,10 @@
 // Usage: ./tsamgroup1 60000 130.208.246.249 5001 5005
 
 // TODO: Passa að portið sé laust, gera auto.
+// TODO: Finna public IP af pæjunni og fylla það sjálfkrafa inn
+// TODO: Sýna hver er botti, gera blacklist
+// TODO: Byrja að tengjast fleiri serverum og double checka virkni á KEEPALIVE
+// TODO: Þarf að laga einhvernvegin server names, kanski gera ping taka server name og populate-a í populateServerList
 
 #include <iostream>
 #include <vector>
@@ -194,7 +198,6 @@ void logMessage(const std::string& logType, const std::string& message) {
 }
 
 // Dynamically populate the connection server list based on provided arguments
-// TODO: Þarf að laga einhvernvegin server names, kanski gera ping taka server name og populate-a
 void populateServerList(const std::string &ipAddress, int portStart, int portEnd) {
     serverList.clear();
     int groupNumber = 1;
