@@ -7,7 +7,8 @@ This project implements a store-and-forward botnet message server with a Command
 ## Features:
 - Peer-to-peer server communication
 - Client-server messaging
-- Logging of all sent and received commands
+- Logging of all sent, received commands and client information
+- Blocks repeated unknown attempts
 
 ## Requirements
 - **OS**: Linux or Unix-based environment
