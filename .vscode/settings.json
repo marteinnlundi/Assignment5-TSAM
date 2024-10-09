@@ -59,6 +59,12 @@
         "text_encoding": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "csignal": "cpp",
+        "set": "cpp",
+        "iomanip": "cpp",
+        "mutex": "cpp"
     }
 }

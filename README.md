@@ -5,20 +5,6 @@
 
 This project implements a store-and-forward botnet message server with a Command and Control (C&C) client. The goal is to create a decentralized messaging network that can continue functioning during network failures.
 
-<<<<<<< HEAD
-## Features:
-- Peer-to-peer server communication
-- Client-server messaging
-- Logging of all sent, received commands and client information
-- Blocks repeated unknown attempts
-
-## Requirements
-- **OS**: Linux or Unix-based environment
-- **Language**: C++
-- **Compiler**: g++ (C++11 or later)
-
-=======
->>>>>>> 84cb8ee (Ein todo skilo)
 ## Files
 - `client.cpp`: Client-side implementation.
 - `server.cpp`: Server-side implementation.

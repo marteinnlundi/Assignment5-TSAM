@@ -31,3 +31,394 @@
 [Wed Oct  9 08:40:11 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
 [Wed Oct  9 08:40:32 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
 [Wed Oct  9 08:41:50 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 13:19:03 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 13:19:16 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5006
+[Wed Oct  9 13:22:22 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5006
+[Wed Oct  9 13:23:34 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Wed Oct  9 13:23:44 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Wed Oct  9 13:23:44 2024] [INFO] Server started on port 60001
+[Wed Oct  9 13:24:48 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 4001 to 4010
+[Wed Oct  9 13:24:48 2024] [INFO] Server started on port 60001
+[Wed Oct  9 13:25:43 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Wed Oct  9 13:25:53 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5006
+[Wed Oct  9 14:02:21 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:02:21 2024] [INFO] Server started on port 60000
+[Wed Oct  9 14:02:21 2024] [INFO] Server started main loop
+[Wed Oct  9 14:02:33 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 14:02:33 2024] [INFO] Client IP: 127.0.0.1 Port: 35258
+[Wed Oct  9 14:02:46 2024] [INFO] New client/server connected on socket 7
+[Wed Oct  9 14:02:46 2024] [INFO] Client IP: 127.0.0.1 Port: 39514
+[Wed Oct  9 14:03:47 2024] [INFO] Received data on socket 6: INVALIDCOMMAND
+[Wed Oct  9 14:03:47 2024] [DEBUG] Raw command received: [INVALIDCOMMAND]
+[Wed Oct  9 14:03:47 2024] [DEBUG] Trimmed command for processing: [INVALIDCOMMAND]
+[Wed Oct  9 14:03:47 2024] [ERROR] Unknown command: INVALIDCOMMAND from 127.0.0.1
+[Wed Oct  9 14:03:47 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 14:03:53 2024] [INFO] Received data on socket 6: INVALIDCOMMAND
+[Wed Oct  9 14:03:53 2024] [DEBUG] Raw command received: [INVALIDCOMMAND]
+[Wed Oct  9 14:03:53 2024] [DEBUG] Trimmed command for processing: [INVALIDCOMMAND]
+[Wed Oct  9 14:03:53 2024] [ERROR] Unknown command: INVALIDCOMMAND from 127.0.0.1
+[Wed Oct  9 14:03:53 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Wed Oct  9 14:03:53 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Wed Oct  9 14:16:06 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:16:11 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:17:04 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:17:05 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:22:02 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:25:20 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:25:20 2024] [INFO] Server started on port 60001
+[Wed Oct  9 14:25:20 2024] [INFO] Server started main loop
+[Wed Oct  9 14:27:18 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 14:27:18 2024] [INFO] Client IP: 127.0.0.1 Port: 58638
+[Wed Oct  9 14:27:27 2024] [INFO] New client/server connected on socket 7
+[Wed Oct  9 14:27:27 2024] [INFO] Client IP: 127.0.0.1 Port: 48180
+[Wed Oct  9 14:28:00 2024] [INFO] Received data on socket 6: LISTSERVERS
+[Wed Oct  9 14:28:00 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Wed Oct  9 14:28:00 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Wed Oct  9 14:28:00 2024] [ERROR] Unknown command: LISTSERVERS from 127.0.0.1
+[Wed Oct  9 14:28:00 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 14:28:26 2024] [INFO] Received data on socket 6: HELO,A 1
+[Wed Oct  9 14:28:26 2024] [DEBUG] Raw command received: [HELO,A 1]
+[Wed Oct  9 14:28:26 2024] [DEBUG] Trimmed command for processing: [HELO,A 1]
+[Wed Oct  9 14:28:26 2024] [ERROR] Unknown command: HELO,A 1 from 127.0.0.1
+[Wed Oct  9 14:28:26 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Wed Oct  9 14:28:26 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Wed Oct  9 14:29:40 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:29:46 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:29:50 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:29:50 2024] [INFO] Server started on port 60002
+[Wed Oct  9 14:29:50 2024] [INFO] Server started main loop
+[Wed Oct  9 14:30:02 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 14:30:02 2024] [INFO] Client IP: 127.0.0.1 Port: 60430
+[Wed Oct  9 14:31:44 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:31:44 2024] [INFO] Server started on port 60003
+[Wed Oct  9 14:31:44 2024] [INFO] Server started main loop
+[Wed Oct  9 14:32:57 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:33:00 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:33:00 2024] [INFO] Server started on port 60004
+[Wed Oct  9 14:33:00 2024] [INFO] Server started main loop
+[Wed Oct  9 14:37:26 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:37:31 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:37:31 2024] [INFO] Server started on port 60006
+[Wed Oct  9 14:37:31 2024] [INFO] Server started main loop
+[Wed Oct  9 14:37:57 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 14:37:57 2024] [INFO] Client IP: 127.0.0.1 Port: 34112
+[Wed Oct  9 14:38:57 2024] [INFO] Received data on socket 6: KEEPALIVE,2
+
+[Wed Oct  9 14:38:57 2024] [DEBUG] Raw command received: [KEEPALIVE,2
+]
+[Wed Oct  9 14:38:57 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,2]
+[Wed Oct  9 14:38:57 2024] [ERROR] Unknown command: KEEPALIVE,2 from 127.0.0.1
+[Wed Oct  9 14:38:57 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 14:39:08 2024] [INFO] Connection closed on socket: 6
+[Wed Oct  9 14:44:18 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:44:22 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:44:22 2024] [INFO] Server started on port 60007
+[Wed Oct  9 14:44:22 2024] [INFO] Server started main loop
+[Wed Oct  9 14:46:56 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:46:56 2024] [INFO] Server started on port 60008
+[Wed Oct  9 14:46:56 2024] [INFO] Server started main loop
+[Wed Oct  9 14:47:14 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:47:18 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:47:18 2024] [INFO] Server started on port 60009
+[Wed Oct  9 14:47:18 2024] [INFO] Server started main loop
+[Wed Oct  9 14:55:21 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:55:27 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 14:55:27 2024] [INFO] Server started on port 60010
+[Wed Oct  9 14:55:27 2024] [INFO] Server started main loop
+[Wed Oct  9 14:57:07 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 14:57:07 2024] [INFO] Client IP: 127.0.0.1 Port: 45358
+[Wed Oct  9 14:57:19 2024] [INFO] Received data on socket 6: HELO,A5_1
+[Wed Oct  9 14:57:19 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Wed Oct  9 14:57:19 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Wed Oct  9 14:57:19 2024] [ERROR] Unknown command: HELO,A5_1 from 127.0.0.1
+[Wed Oct  9 14:57:19 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 15:03:51 2024] [INFO] New client/server connected on socket 7
+[Wed Oct  9 15:03:51 2024] [INFO] Client IP: 127.0.0.1 Port: 35610
+[Wed Oct  9 15:03:58 2024] [INFO] Received data on socket 7: HELO,A 1
+[Wed Oct  9 15:03:58 2024] [DEBUG] Raw command received: [HELO,A 1]
+[Wed Oct  9 15:03:58 2024] [DEBUG] Trimmed command for processing: [HELO,A 1]
+[Wed Oct  9 15:03:58 2024] [ERROR] Unknown command: HELO,A 1 from 127.0.0.1
+[Wed Oct  9 15:03:58 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Wed Oct  9 15:03:58 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Wed Oct  9 15:08:23 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 15:08:30 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 15:08:30 2024] [INFO] Server started on port 60011
+[Wed Oct  9 15:08:30 2024] [INFO] Server started main loop
+[Wed Oct  9 15:15:43 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 15:15:43 2024] [INFO] Server started on port 60012
+[Wed Oct  9 15:15:43 2024] [INFO] Server started main loop
+[Wed Oct  9 15:33:00 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 15:33:00 2024] [INFO] Server started on port 60013
+[Wed Oct  9 15:33:00 2024] [INFO] Successfully connected to server 130.208.246.249 on port 5004
+[Wed Oct  9 15:33:00 2024] [INFO] Server started main loop
+[Wed Oct  9 15:33:00 2024] [INFO] Received message on socket 5: HELO,ORACLE
+[Wed Oct  9 15:33:00 2024] [INFO] Received message from server: HELO,ORACLE
+[Wed Oct  9 15:34:38 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 60002 to 60003
+[Wed Oct  9 15:34:51 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:34:51 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:34:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 600016
+[Wed Oct  9 15:34:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:35:39 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Wed Oct  9 15:35:39 2024] [INFO] Server started on port 60014
+[Wed Oct  9 15:35:39 2024] [INFO] Successfully connected to server 130.208.246.249 on port 5005
+[Wed Oct  9 15:35:39 2024] [INFO] Server started main loop
+[Wed Oct  9 15:35:39 2024] [INFO] Received message on socket 5: HELO,NUMBER
+[Wed Oct  9 15:35:39 2024] [INFO] Received message from server: HELO,NUMBER
+[Wed Oct  9 15:36:49 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:36:49 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:36:49 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:36:50 2024] [ERROR] connect() failed to 127.0.0.1 on port 600016
+[Wed Oct  9 15:37:03 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:37:03 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:37:03 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:37:06 2024] [ERROR] connect() failed to 127.0.0.1 on port 600016
+[Wed Oct  9 15:38:12 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:38:12 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:38:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 600016
+[Wed Oct  9 15:38:14 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:38:59 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:38:59 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:38:59 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 600016
+[Wed Oct  9 15:39:23 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600014 to 600015
+[Wed Oct  9 15:39:23 2024] [INFO] Server started on port 600016
+[Wed Oct  9 15:39:23 2024] [ERROR] connect() failed to 127.0.0.1 on port 600014
+[Wed Oct  9 15:39:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 600015
+[Wed Oct  9 15:39:30 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600014 to 600016
+[Wed Oct  9 15:39:30 2024] [INFO] Server started on port 600015
+[Wed Oct  9 15:39:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 600014
+[Wed Oct  9 15:39:31 2024] [INFO] Successfully connected to server 127.0.0.1 on port 600015
+[Wed Oct  9 15:39:31 2024] [INFO] Server started main loop
+[Wed Oct  9 15:39:36 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 15:39:36 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 15:39:36 2024] [INFO] Client IP: 127.0.0.1 Port: 52704
+[Wed Oct  9 15:39:36 2024] [INFO] Received data on socket 6: HELO,A5 1
+[Wed Oct  9 15:39:36 2024] [DEBUG] Raw command received: [HELO,A5 1]
+[Wed Oct  9 15:39:36 2024] [DEBUG] Trimmed command for processing: [HELO,A5 1]
+[Wed Oct  9 15:39:36 2024] [ERROR] Unknown command: HELO,A5 1 from 127.0.0.1
+[Wed Oct  9 15:39:36 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 15:40:31 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:40:31 2024] [INFO] Server started on port 600014
+[Wed Oct  9 15:40:31 2024] [INFO] Successfully connected to server 127.0.0.1 on port 600015
+[Wed Oct  9 15:40:31 2024] [INFO] Server started main loop
+[Wed Oct  9 15:40:31 2024] [INFO] New client/server connected on socket 7
+[Wed Oct  9 15:40:31 2024] [INFO] Client IP: 127.0.0.1 Port: 54476
+[Wed Oct  9 15:40:35 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600014 to 600015
+[Wed Oct  9 15:40:35 2024] [INFO] Server started on port 600016
+[Wed Oct  9 15:40:35 2024] [INFO] Successfully connected to server 127.0.0.1 on port 600015
+[Wed Oct  9 15:40:35 2024] [INFO] Server started main loop
+[Wed Oct  9 15:40:35 2024] [INFO] New client/server connected on socket 8
+[Wed Oct  9 15:40:35 2024] [INFO] Client IP: 127.0.0.1 Port: 54484
+[Wed Oct  9 15:40:36 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 15:40:36 2024] [INFO] Received data on socket 7: HELO,A5 1
+[Wed Oct  9 15:40:36 2024] [DEBUG] Raw command received: [HELO,A5 1]
+[Wed Oct  9 15:40:36 2024] [DEBUG] Trimmed command for processing: [HELO,A5 1]
+[Wed Oct  9 15:40:36 2024] [ERROR] Unknown command: HELO,A5 1 from 127.0.0.1
+[Wed Oct  9 15:40:36 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Wed Oct  9 15:40:36 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Wed Oct  9 15:40:40 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 15:40:40 2024] [INFO] Received data on socket 8: HELO,A5 1
+[Wed Oct  9 15:40:40 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Wed Oct  9 15:42:26 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:42:33 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600015 to 600016
+[Wed Oct  9 15:42:45 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600018 to 600019
+[Wed Oct  9 15:42:45 2024] [INFO] Server started on port 600017
+[Wed Oct  9 15:42:45 2024] [ERROR] connect() failed to 127.0.0.1 on port 600019
+[Wed Oct  9 15:42:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 600018
+[Wed Oct  9 15:42:54 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 600017 to 600019
+[Wed Oct  9 15:42:54 2024] [INFO] Server started on port 600018
+[Wed Oct  9 15:42:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 600019
+[Wed Oct  9 15:42:55 2024] [INFO] Successfully connected to server 127.0.0.1 on port 600018
+[Wed Oct  9 15:42:55 2024] [INFO] Server started main loop
+[Wed Oct  9 15:43:00 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 15:43:00 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 15:43:00 2024] [INFO] Client IP: 127.0.0.1 Port: 40244
+[Wed Oct  9 15:43:00 2024] [INFO] Received data on socket 6: HELO,A5 1
+[Wed Oct  9 15:43:00 2024] [DEBUG] Raw command received: [HELO,A5 1]
+[Wed Oct  9 15:43:00 2024] [DEBUG] Trimmed command for processing: [HELO,A5 1]
+[Wed Oct  9 15:43:00 2024] [ERROR] Unknown command: HELO,A5 1 from 127.0.0.1
+[Wed Oct  9 15:43:00 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 15:43:54 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 600017 to 600019
+[Wed Oct  9 15:45:01 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 5001 to 5005
+[Wed Oct  9 15:45:01 2024] [INFO] Server started on port 600000
+[Wed Oct  9 15:45:45 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 600000 to 600000
+[Wed Oct  9 15:50:47 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 600000 to 600000
+[Wed Oct  9 19:16:31 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 5001 to 5005
+[Wed Oct  9 19:16:48 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 5001 to 5005
+[Wed Oct  9 19:16:48 2024] [INFO] Server started on port 60020
+[Wed Oct  9 19:19:05 2024] [ERROR] connect() failed to 89.160.229.150 on port 5005
+[Wed Oct  9 19:21:04 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 5001 to 5005
+[Wed Oct  9 19:21:04 2024] [INFO] Server started on port 60000
+[Wed Oct  9 19:21:20 2024] [ERROR] connect() failed to 89.160.229.150 on port 5002
+[Wed Oct  9 19:23:18 2024] [ERROR] connect() failed to 89.160.229.150 on port 5005
+[Wed Oct  9 19:23:39 2024] [ERROR] connect() failed to 89.160.229.150 on port 5003
+[Wed Oct  9 19:25:34 2024] [ERROR] connect() failed to 89.160.229.150 on port 5001
+[Wed Oct  9 19:25:54 2024] [ERROR] connect() failed to 89.160.229.150 on port 5004
+[Wed Oct  9 19:27:49 2024] [ERROR] connect() failed to 89.160.229.150 on port 5002
+[Wed Oct  9 19:28:13 2024] [ERROR] connect() failed to 89.160.229.150 on port 5001
+[Wed Oct  9 19:29:03 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 19:30:31 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 19:30:31 2024] [INFO] Server started on port 60000
+[Wed Oct  9 19:30:31 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 19:30:31 2024] [INFO] Server started main loop
+[Wed Oct  9 19:30:31 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 20:50:01 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:50:02 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:52:07 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:53:15 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:54:00 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:54:37 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:55:27 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:55:27 2024] [INFO] Server started on port 60000
+[Wed Oct  9 20:55:27 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 20:55:27 2024] [INFO] Server started main loop
+[Wed Oct  9 20:55:32 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 20:57:21 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:57:24 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:57:30 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 20:58:46 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:01:15 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:01:57 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:02:54 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:04:01 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:04:05 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:04:05 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:04:05 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:04:05 2024] [INFO] Server started main loop
+[Wed Oct  9 21:04:05 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:08:42 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:08:42 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:11:50 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:11:50 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:12:41 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:12:41 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:12:41 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:12:41 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:12:41 2024] [INFO] Server started main loop
+[Wed Oct  9 21:12:41 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:13:47 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:13:47 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:13:47 2024] [INFO] Closing log file.
+[Wed Oct  9 21:13:52 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:13:52 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:13:52 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:13:52 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:13:52 2024] [INFO] Server started main loop
+[Wed Oct  9 21:13:52 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:14:54 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:14:54 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:14:54 2024] [INFO] Closing log file.
+[Wed Oct  9 21:15:01 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:15:01 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:15:01 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:15:01 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:15:01 2024] [INFO] Server started main loop
+[Wed Oct  9 21:15:01 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:16:06 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:16:06 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:16:06 2024] [INFO] Closing log file.
+[Wed Oct  9 21:16:16 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:16:16 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:16:16 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:16:16 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:16:16 2024] [INFO] Server started main loop
+[Wed Oct  9 21:16:16 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:19:13 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:19:13 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:19:13 2024] [INFO] Closing log file.
+[Wed Oct  9 21:19:14 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:19:14 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:19:14 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:19:14 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:19:14 2024] [INFO] Server started main loop
+[Wed Oct  9 21:19:14 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:19:16 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:19:16 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:19:16 2024] [INFO] Closing log file.
+[Wed Oct  9 21:19:26 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:19:26 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:19:26 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:19:26 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:19:26 2024] [INFO] Server started main loop
+[Wed Oct  9 21:19:26 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:20:18 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:20:18 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:20:18 2024] [INFO] Closing log file.
+[Wed Oct  9 21:20:23 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:20:23 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:20:23 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:20:23 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:20:23 2024] [INFO] Server started main loop
+[Wed Oct  9 21:20:23 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:25:54 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:25:54 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:25:54 2024] [INFO] Closing log file.
+[Wed Oct  9 21:32:44 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:32:44 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:32:44 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:32:44 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:32:44 2024] [INFO] Server started main loop
+[Wed Oct  9 21:32:49 2024] [WARNING] No response from server within 5 seconds, retrying...
+[Wed Oct  9 21:38:33 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:38:33 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:38:33 2024] [INFO] Closing log file.
+[Wed Oct  9 21:38:37 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:38:37 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:38:37 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:38:37 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:38:37 2024] [INFO] Server started main loop
+[Wed Oct  9 21:38:37 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:40:44 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:40:44 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:40:44 2024] [INFO] Closing log file.
+[Wed Oct  9 21:40:48 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:40:48 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:40:48 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:40:48 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:40:48 2024] [INFO] Server started main loop
+[Wed Oct  9 21:40:48 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:45:18 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 21:45:34 2024] [INFO] Received data on socket 6: SENDMSG,A5_2,A5_1,Hello from A5_1
+[Wed Oct  9 21:45:34 2024] [DEBUG] Raw command received: [SENDMSG,A5_2,A5_1,Hello from A5_1]
+[Wed Oct  9 21:45:34 2024] [DEBUG] Trimmed command for processing: [SENDMSG,A5_2,A5_1,Hello from A5_1]
+[Wed Oct  9 21:45:34 2024] [ERROR] Unknown command: SENDMSG,A5_2,A5_1,Hello from A5_1 from 127.0.0.1
+[Wed Oct  9 21:45:34 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 21:45:51 2024] [INFO] Received data on socket 6: HELO,A5_1
+[Wed Oct  9 21:45:51 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Wed Oct  9 21:45:51 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Wed Oct  9 21:45:51 2024] [ERROR] Unknown command: HELO,A5_1 from 127.0.0.1
+[Wed Oct  9 21:45:51 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Wed Oct  9 21:45:51 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Wed Oct  9 21:47:55 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:47:55 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:47:55 2024] [INFO] Closing log file.
+[Wed Oct  9 21:48:10 2024] [INFO] Log file opened successfully
+[Wed Oct  9 21:48:10 2024] [INFO] Populated server list with IP: 89.160.229.150 and ports from 60000 to 60000
+[Wed Oct  9 21:48:10 2024] [INFO] Server started on port 60000
+[Wed Oct  9 21:48:10 2024] [INFO] Successfully connected to server 89.160.229.150 on port 60000
+[Wed Oct  9 21:48:10 2024] [INFO] Server started main loop
+[Wed Oct  9 21:48:10 2024] [INFO] Received message on socket 5: 
+[Wed Oct  9 21:48:13 2024] [INFO] New client/server connected on socket 6
+[Wed Oct  9 21:48:27 2024] [INFO] Received data on socket 6: HELO,A5_1
+[Wed Oct  9 21:48:27 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Wed Oct  9 21:48:27 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Wed Oct  9 21:48:27 2024] [INFO] HELO received from GroupID: A5_1
+[Wed Oct  9 21:48:27 2024] [INFO] Sent SERVERS list to socket: 6
+[Wed Oct  9 21:48:27 2024] [INFO] Sent HELO response to socket: 6
+[Wed Oct  9 21:48:33 2024] [INFO] Received data on socket 6: SENDMSG,A5_2,A5_1,Hello A5_2!
+[Wed Oct  9 21:48:33 2024] [DEBUG] Raw command received: [SENDMSG,A5_2,A5_1,Hello A5_2!]
+[Wed Oct  9 21:48:33 2024] [DEBUG] Trimmed command for processing: [SENDMSG,A5_2,A5_1,Hello A5_2!]
+[Wed Oct  9 21:48:33 2024] [INFO] Message stored for GroupID: A5_2
+[Wed Oct  9 21:48:39 2024] [INFO] Received data on socket 6: GETMSGS,A5_1
+[Wed Oct  9 21:48:39 2024] [DEBUG] Raw command received: [GETMSGS,A5_1]
+[Wed Oct  9 21:48:39 2024] [DEBUG] Trimmed command for processing: [GETMSGS,A5_1]
+[Wed Oct  9 21:48:39 2024] [INFO] GETMSGS received for GroupID: A5_1
+[Wed Oct  9 21:48:39 2024] [INFO] No messages found for GroupID: A5_1
+[Wed Oct  9 21:48:45 2024] [INFO] Received data on socket 6: LISTSERVERS
+[Wed Oct  9 21:48:45 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Wed Oct  9 21:48:45 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Wed Oct  9 21:48:45 2024] [ERROR] Unknown command: LISTSERVERS from 127.0.0.1
+[Wed Oct  9 21:48:45 2024] [INFO] Sent warning to 127.0.0.1
+[Wed Oct  9 21:55:34 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Wed Oct  9 21:55:34 2024] [INFO] Listening socket closed.
+[Wed Oct  9 21:55:34 2024] [INFO] Closing log file.
