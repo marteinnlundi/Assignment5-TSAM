@@ -18,6 +18,7 @@ This project implements a store-and-forward botnet message server with a Command
 - `client.cpp`: Client-side implementation.
 - `server.cpp`: Server-side implementation.
 - `server_log.txt`: Log file with all server activities.
+- `server_log_old.txt`: Extra log file for when the main one is larger then 5MB.
 
 ## Compilation
 
@@ -29,7 +30,11 @@ g++ server.cpp -o tsamgroup1 -pthread
 ## Running the Server
 
 ```bash
-./tsamgroup1 <port>
+./tsamgroup1 <port> <servers_to_connect_to> <begining_port_for_connected_servers> <ending_port_for_connected_servers>
+```
+Copy/paste cmd to talk to instruction servers
+```bash
+./tsamgroup1 60000 130.208.246.249 5001 5005
 ```
 
 ## Running the Client
@@ -59,4 +64,4 @@ g++ server.cpp -o tsamgroup1 -pthread
 ## Logging
 
 The server logs all commands and activities in `server_log.txt`.
-
+The server is able to write upto 5MB into one log file then it uses another log file.
