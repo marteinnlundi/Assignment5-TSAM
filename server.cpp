@@ -3,9 +3,9 @@
 
 // TODO: Passa að portið sé laust, gera auto.
 // TODO: Finna public IP af pæjunni og fylla það sjálfkrafa inn
-// TODO: Sýna hver er botti, gera blacklist
 // TODO: Byrja að tengjast fleiri serverum og double checka virkni á KEEPALIVE
 // TODO: Þarf að laga einhvernvegin server names, kanski gera ping taka server name og populate-a í populateServerList
+// TODO: double checka virkni blocklistans
 
 #include <iostream>
 #include <vector>
@@ -28,6 +28,7 @@
 #include <sys/select.h>
 #include <fstream>
 #include <sys/stat.h>
+#include <chrono>
 
 #define SOH 0x01  // Start of Header
 #define EOT 0x04  // End of Transmission
@@ -37,6 +38,7 @@
 #define MAX_LOG_FILE_SIZE 1024 * 1024 * 5  // 5MB max log size
 #define LOG_FILE "server_log.txt"
 #define ROTATED_LOG_FILE "server_log_old.txt"
+#define BLOCK_TIME_MINUTES 30  // Block IPs for 30 minutes
 
 // Structure to hold server information
 struct ServerInfo {
@@ -58,6 +60,10 @@ std::string currentServerIP = "89.160.229.150";  // The current server's IP addr
 int port;  // The port this server is listening on
 
 std::ofstream logFile; // Setup the log file
+// Blocklist to track blocked IPs and their unblock time (using chrono for time tracking)
+std::map<std::string, std::chrono::time_point<std::chrono::system_clock>> blocklist;
+// Map to track failed commands per IP
+std::map<std::string, int> failedCommandCount;
 
 // Choose a random server from the list
 ServerInfo chooseRandomServer() {
@@ -208,6 +214,29 @@ void populateServerList(const std::string &ipAddress, int portStart, int portEnd
     logMessage("INFO", "Populated server list with IP: " + ipAddress + " and ports from " + std::to_string(portStart) + " to " + std::to_string(portEnd));
 }
 
+// Function to check if an IP is blocked
+bool isBlocked(const std::string &ip) {
+    auto now = std::chrono::system_clock::now();
+    if (blocklist.find(ip) != blocklist.end()) {
+        if (blocklist[ip] > now) {
+            return true;
+        } else {
+            // Remove IP from blocklist after block time expires
+            blocklist.erase(ip);
+            logMessage("INFO", "Unblocked IP: " + ip);
+        }
+    }
+    return false;
+}
+
+// Function to block an IP for 30 minutes
+void blockIP(const std::string &ip) {
+    auto now = std::chrono::system_clock::now();
+    auto unblockTime = now + std::chrono::minutes(BLOCK_TIME_MINUTES);
+    blocklist[ip] = unblockTime;
+    logMessage("INFO", "Blocked IP: " + ip + " for 30 minutes.");
+}
+
 // Helper function to frame messages with SOH and EOT
 std::string frameMessage(const std::string &msg) {
     return std::string(1, SOH) + msg + std::string(1, EOT);
@@ -264,9 +293,17 @@ std::string trim(const std::string &str) {
 }
 
 // Handle incoming client commands
-void handleClientCommand(int clientSocket, const std::string &command) {
+void handleClientCommand(int clientSocket, const std::string &command, const std::string &clientIP, fd_set &openSockets) {
     // Trim the command before processing
     std::string trimmedCommand = trim(command);
+
+    // Check if the client is blocked
+    if (isBlocked(clientIP)) {
+        logMessage("INFO", "Blocked IP attempted to connect: " + clientIP);
+        close(clientSocket);  // Close the connection immediately
+        FD_CLR(clientSocket, &openSockets);  // Remove the socket from the FD set
+        return;
+    }
 
     // Check for empty commands and respond with error
     if (trimmedCommand.empty()) {
@@ -279,6 +316,35 @@ void handleClientCommand(int clientSocket, const std::string &command) {
     // Log raw command for debugging
     logMessage("DEBUG", "Raw command received: [" + command + "]");
     logMessage("DEBUG", "Trimmed command for processing: [" + trimmedCommand + "]");
+
+    // Track failed commands for the IP
+    if (trimmedCommand.empty() || (trimmedCommand.find("HELO") != 0 && trimmedCommand.find("SENDMSG") != 0 && trimmedCommand.find("GETMSGS") != 0)) {
+        failedCommandCount[clientIP]++;
+        logMessage("ERROR", "Unknown command: " + trimmedCommand + " from " + clientIP);
+
+        if (failedCommandCount[clientIP] == 1) {
+            // Send a warning after the first failed command
+            std::string warningMsg = "WARNING: Unknown command received. Continued attempts may result in blocking.";
+            send(clientSocket, frameMessage(warningMsg).c_str(), frameMessage(warningMsg).length(), 0);
+            logMessage("INFO", "Sent warning to " + clientIP);
+        }
+
+        if (failedCommandCount[clientIP] >= 2) {
+            // Block the IP after the second failed command
+            blockIP(clientIP);  // Block the IP after 2 failed commands
+            std::string blockMsg = "BLOCKED: Too many invalid commands. You have been blocked for 30 minutes.";
+            send(clientSocket, frameMessage(blockMsg).c_str(), frameMessage(blockMsg).length(), 0);
+            logMessage("INFO", "Blocked IP: " + clientIP + " after repeated invalid commands");
+
+            close(clientSocket);  // Close the connection
+            FD_CLR(clientSocket, &openSockets);  // Remove the socket from the FD set
+            return;  // Exit after closing and removing the socket
+        }
+        return;
+    }
+
+    // Reset failed command count on successful command
+    failedCommandCount[clientIP] = 0;
 
     // Split the trimmed command into tokens
     std::vector<std::string> tokens = splitString(trimmedCommand, ',');
@@ -411,10 +477,18 @@ void serverLoop(int listenSock, int connectedSock) {
                     } else {
                         FD_SET(newSock, &openSockets);
                         maxfds = std::max(maxfds, newSock);
+                        
                         logMessage("INFO", "New client/server connected on socket " + std::to_string(newSock));
                         char clientIP[INET_ADDRSTRLEN];
                         inet_ntop(AF_INET, &(clientAddr.sin_addr), clientIP, INET_ADDRSTRLEN);
                         logMessage("INFO", "Client IP: " + std::string(clientIP) + " Port: " + std::to_string(ntohs(clientAddr.sin_port)));
+                        
+                        // If the client is already blocked, close the connection immediately
+                        if (isBlocked(clientIP)) {
+                            logMessage("INFO", "Blocked IP attempted to connect: " + std::string(clientIP));
+                            close(newSock);
+                            FD_CLR(newSock, &openSockets);  // Remove the socket from the FD set
+                        }
                     }
                 } else {
                     // Handle client/server commands
@@ -423,12 +497,20 @@ void serverLoop(int listenSock, int connectedSock) {
                     int bytesReceived = recv(i, buffer, MAX_BUFFER, 0);
                     if (bytesReceived <= 0) {
                         close(i);
-                        FD_CLR(i, &openSockets);
+                        FD_CLR(i, &openSockets);  // Ensure the socket is removed from the FD set
                         logMessage("INFO", "Connection closed on socket: " + std::to_string(i));
                     } else {
                         std::string receivedMsg(buffer, bytesReceived);
+
+                        // Get client IP for tracking
+                        struct sockaddr_in addr;
+                        socklen_t addr_size = sizeof(struct sockaddr_in);
+                        getpeername(i, (struct sockaddr *)&addr, &addr_size);
+                        char clientIP[INET_ADDRSTRLEN];
+                        inet_ntop(AF_INET, &(addr.sin_addr), clientIP, INET_ADDRSTRLEN);
+
                         logMessage("INFO", "Received data on socket " + std::to_string(i) + ": " + receivedMsg);
-                        handleClientCommand(i, receivedMsg);
+                        handleClientCommand(i, receivedMsg, std::string(clientIP), openSockets);
                     }
                 }
             }
