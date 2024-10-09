@@ -1,6 +1,8 @@
 // Compile: g++ server.cpp -o tsamgroup1 -pthread
 // Usage: ./tsamgroup1 60000 130.208.246.249 5001 5005
 
+// TODO: Passa að portið sé laust, gera auto.
+
 #include <iostream>
 #include <vector>
 #include <map>
