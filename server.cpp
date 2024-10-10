@@ -494,7 +494,6 @@ std::string unframeMessage(const std::string &msg) {
     }
     return msg;
 }
-
 void handleClientCommand(int clientSocket, const std::string &command, const std::string &clientIP, fd_set &openSockets) {
     // Trim the command before processing
     std::string unframedCommand = unframeMessage(command);
@@ -533,7 +532,7 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
     }
 
     // Track failed commands for the IP
-    if (trimmedCommand.empty() || (trimmedCommand.find("HELO") != 0 && trimmedCommand.find("SENDMSG") != 0 && trimmedCommand.find("GETMSGS") != 0)) {
+    if (trimmedCommand.empty() || (trimmedCommand.find("HELO") != 0 && trimmedCommand.find("SENDMSG") != 0 && trimmedCommand.find("GETMSGS") != 0 && trimmedCommand.find("KEEPALIVE") != 0)) {
         failedCommandCount[clientIP]++;
         logMessage("ERROR", "Unknown command: " + trimmedCommand + " from " + clientIP);
 
@@ -624,6 +623,18 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         std::string framedStatus = frameMessage(statusResponse.str());
         send(clientSocket, framedStatus.c_str(), framedStatus.length(), 0);
         logMessage("INFO", "STATUSRESP sent to socket: " + std::to_string(clientSocket));
+
+    // Handle KEEPALIVE Command
+    } else if (cmd.compare("KEEPALIVE") == 0 && tokens.size() == 2) {
+        std::string messageCount = trim(tokens[1]);
+        logMessage("INFO", "KEEPALIVE received from " + clientIP + " with message count: " + messageCount);
+        
+        // Update last keep-alive time for the connected server
+        connectedServers[clientSocket].lastKeepAlive = time(0);
+        
+        // Log keep-alive response
+        logMessage("INFO", "Keep-alive acknowledged from server: " + clientIP);
+
     } else {
         logMessage("ERROR", "Unknown command: " + cmd);
 
@@ -658,8 +669,7 @@ void removeExpiredBlocks() {
         }
     }
 }
-
-void serverLoop(int listenSock, int connectedSock) {
+void serverLoop(int listenSock) {
     fd_set openSockets, readSockets;
     int maxfds = listenSock;
 
@@ -667,9 +677,6 @@ void serverLoop(int listenSock, int connectedSock) {
     FD_SET(listenSock, &openSockets);
 
     logMessage("INFO", "Server started main loop");
-
-    // After successfully connecting to an instructor server, receive and print its response
-    receiveServerResponse(connectedSock);
 
     while (true) {
         readSockets = openSockets;
@@ -691,7 +698,6 @@ void serverLoop(int listenSock, int connectedSock) {
                     } else {
                         FD_SET(newSock, &openSockets);
                         maxfds = std::max(maxfds, newSock);
-
                         logMessage("INFO", "New client/server connected on socket " + std::to_string(newSock));
                     }
                 } else {
@@ -723,6 +729,7 @@ void serverLoop(int listenSock, int connectedSock) {
 }
 
 
+
 // Global variable to hold the main socket descriptor
 int mainSocket = -1;
 
@@ -742,24 +749,86 @@ void signalHandler(int signum) {
     exit(signum);  // Exit with the signal code
 }
 
+// Function to ensure the server connects to at least 3 other servers
+void ensureMinimumConnections() {
+    int connectedCount = 0;
+    std::vector<int> triedIndexes;
+    
+    while (connectedCount < 3 && triedIndexes.size() < serverList.size()) {
+        for (auto &server : serverList) {
+            if (connectedServers.find(server.sockfd) == connectedServers.end()) {
+                // Attempt to connect if not already connected
+                int sockfd = tryToConnect(server);
+                if (sockfd >= 0) {
+                    server.sockfd = sockfd;
+                    connectedServers[sockfd] = server;
+                    connectedCount++;
+                    logMessage("INFO", "Successfully connected to " + server.ipAddress + ":" + std::to_string(server.port));
+                } else {
+                    logMessage("ERROR", "Failed to connect to server " + server.ipAddress);
+                }
+            }
+            triedIndexes.push_back(server.port);
+        }
+    }
+    
+    if (connectedCount < 3) {
+        logMessage("WARNING", "Less than 3 server connections established.");
+    } else {
+        logMessage("INFO", "Successfully connected to at least 3 servers.");
+    }
+}
+
+// Retry connection to failed servers every 30 seconds
+void retryFailedConnections() {
+    for (auto &server : serverList) {
+        if (connectedServers.find(server.sockfd) == connectedServers.end()) {
+            // Try reconnecting
+            int sockfd = tryToConnect(server);
+            if (sockfd >= 0) {
+                server.sockfd = sockfd;
+                connectedServers[sockfd] = server;
+                logMessage("INFO", "Reconnected to server " + server.ipAddress);
+            }
+        }
+    }
+}
+
+// Ensure periodic connection retries
+void periodicConnectionRetries() {
+    while (true) {
+        retryFailedConnections();
+        std::this_thread::sleep_for(std::chrono::seconds(30));  // Retry every 30 seconds
+    }
+}
+
+// Start periodic keep-alive messages to all connected servers
+void startKeepAliveLoop() {
+    while (true) {
+        sendKeepAliveMessages();
+        std::this_thread::sleep_for(std::chrono::seconds(60));  // Send KEEPALIVE every 60 seconds
+    }
+}
 int main(int argc, char *argv[]) {
     if (argc != 5) {
         std::cerr << "Usage: ./tsamgroup1 SERVER_PORT CONNECTION_SERVER_IP CONNECTION_SERVER_PORT_START CONNECTION_SERVER_PORT_END" << std::endl;
         return EXIT_FAILURE;
     }
 
-    // Assign the command-line arguments
-    port = atoi(argv[1]);
-    currentServerIP = argv[2];
-    int connectionServerPortStart = atoi(argv[3]);
-    int connectionServerPortEnd = atoi(argv[4]);
+    // Assign command-line arguments
+    port = atoi(argv[1]);                     // Port this server will listen on
+    currentServerIP = argv[2];                // IP address of this server
+    int connectionServerPortStart = atoi(argv[3]);  // Start of port range for connecting to other servers
+    int connectionServerPortEnd = atoi(argv[4]);    // End of port range for connecting to other servers
 
-    // Register signal handlers to catch SIGINT (Ctrl+C), SIGTERM, and SIGTSTP (Ctrl+Z)
+    // Register signal handlers to handle interruptions (Ctrl+C, SIGTERM, SIGTSTP)
     signal(SIGINT, signalHandler);
     signal(SIGTERM, signalHandler);
-    signal(SIGTSTP, signalHandler);  // Handling Ctrl+Z to clean up
+    signal(SIGTSTP, signalHandler);  // Handle Ctrl+Z to clean up
 
+    // Clear the blocklist
     blocklist.clear();
+
     // Open the log file for writing
     logFile.open(LOG_FILE, std::ios::out | std::ios::app);
     if (!logFile) {
@@ -768,12 +837,12 @@ int main(int argc, char *argv[]) {
     }
     logMessage("INFO", "Log file opened successfully");
 
-    // Populate the server list dynamically based on command-line arguments
+    // Populate the server list based on command-line input (range of ports)
     populateServerList(currentServerIP, connectionServerPortStart, connectionServerPortEnd);
 
-    // Create the listening socket
-    mainSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (mainSocket < 0) {
+    // Create the main listening socket
+    listenSock = socket(AF_INET, SOCK_STREAM, 0);
+    if (listenSock < 0) {
         perror("socket() failed");
         return EXIT_FAILURE;
     }
@@ -784,36 +853,44 @@ int main(int argc, char *argv[]) {
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(port);
 
+    // Set socket options (e.g., reuse address)
     int opt = 1;
-    if (setsockopt(mainSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+    if (setsockopt(listenSock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
         perror("setsockopt() failed");
-        close(mainSocket);
+        close(listenSock);
         return EXIT_FAILURE;
     }
 
-    if (bind(mainSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0) {
+    // Bind the socket to the specified port
+    if (bind(listenSock, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0) {
         perror("bind() failed");
-        close(mainSocket);
+        close(listenSock);
         return EXIT_FAILURE;
     }
 
-    if (listen(mainSocket, BACKLOG) < 0) {
+    // Start listening for incoming connections
+    if (listen(listenSock, BACKLOG) < 0) {
         perror("listen() failed");
-        close(mainSocket);
+        close(listenSock);
         return EXIT_FAILURE;
     }
 
     std::cout << "Server is listening on port " << port << std::endl;
     logMessage("INFO", "Server started on port " + std::to_string(port));
 
-    // Connect to one of the predefined servers
-    int connectedSock = connectToServer();
-    if (connectedSock < 0) {
-        return EXIT_FAILURE;  // Exit if unable to connect to any server
-    }
+    // Attempt to connect to at least 3 other servers
+    ensureMinimumConnections();
 
-    // Start main server loop
-    serverLoop(mainSocket, connectedSock);
-    
-    return 0;
+    // Create a thread to send periodic keep-alive messages to connected servers
+    std::thread keepAliveThread(startKeepAliveLoop);
+    keepAliveThread.detach();  // Run the keep-alive logic in the background
+
+    // Create a thread to periodically retry connecting to servers that have disconnected
+    std::thread retryThread(periodicConnectionRetries);
+    retryThread.detach();  // Run the retry logic in the background
+
+    // Main server loop for handling client/server commands
+    serverLoop(listenSock);
+
+    return 0;  // Execution will never reach this line, as the server loop runs indefinitely
 }

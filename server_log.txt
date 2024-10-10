@@ -422,3 +422,508 @@
 [Wed Oct  9 21:55:34 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
 [Wed Oct  9 21:55:34 2024] [INFO] Listening socket closed.
 [Wed Oct  9 21:55:34 2024] [INFO] Closing log file.
+[Thu Oct 10 17:04:45 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:04:45 2024] [INFO] Populated server list with IP: 130.208.246.249 and ports from 5001 to 5005
+[Thu Oct 10 17:04:45 2024] [INFO] Server started on port 60000
+[Thu Oct 10 17:04:45 2024] [INFO] Successfully connected to server 130.208.246.249 on port 5003
+[Thu Oct 10 17:04:45 2024] [INFO] Server started main loop
+[Thu Oct 10 17:04:45 2024] [INFO] Received message on socket 5: HELO,Instr_3
+[Thu Oct 10 17:04:45 2024] [INFO] Received message from server: HELO,Instr_3
+[Thu Oct 10 17:04:55 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:05:12 2024] [INFO] Received data on socket 6: HELO,A5_1
+[Thu Oct 10 17:05:12 2024] [DEBUG] Raw command received: [HELO,A5_1]
+[Thu Oct 10 17:05:12 2024] [DEBUG] Trimmed command for processing: [HELO,A5_1]
+[Thu Oct 10 17:05:12 2024] [INFO] HELO received from GroupID: A5_1
+[Thu Oct 10 17:05:12 2024] [INFO] Sent SERVERS list to socket: 6
+[Thu Oct 10 17:05:12 2024] [INFO] Sent HELO response to socket: 6
+[Thu Oct 10 17:05:18 2024] [INFO] Received data on socket 6: LISTSERVERS
+[Thu Oct 10 17:05:18 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Thu Oct 10 17:05:18 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Thu Oct 10 17:05:18 2024] [ERROR] Unknown command: LISTSERVERS from 127.0.0.1
+[Thu Oct 10 17:05:18 2024] [INFO] Sent warning to 127.0.0.1
+[Thu Oct 10 17:05:37 2024] [INFO] Received data on socket 6: GERMSG
+[Thu Oct 10 17:05:37 2024] [DEBUG] Raw command received: [GERMSG]
+[Thu Oct 10 17:05:37 2024] [DEBUG] Trimmed command for processing: [GERMSG]
+[Thu Oct 10 17:05:37 2024] [ERROR] Unknown command: GERMSG from 127.0.0.1
+[Thu Oct 10 17:05:37 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Thu Oct 10 17:05:37 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Thu Oct 10 17:15:38 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:15:38 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:15:38 2024] [INFO] Closing log file.
+[Thu Oct 10 17:15:58 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:15:58 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5002 to 5004
+[Thu Oct 10 17:15:58 2024] [INFO] Server started on port 5001
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:15:58 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:15:58 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:15:58 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:15:58 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:15:58 2024] [INFO] Server started main loop
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:15:58 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:12 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:16:12 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:16:12 2024] [INFO] Server started on port 5002
+[Thu Oct 10 17:16:12 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:16:12 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:16:12 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:16:12 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:16:12 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:16:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:12 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:16:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:12 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:16:12 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:16:12 2024] [INFO] Server started main loop
+[Thu Oct 10 17:16:12 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:16:12 2024] [INFO] Received data on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:16:12 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:16:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:12 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:12 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:12 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:12 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:16:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:12 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:16:12 2024] [INFO] Sent warning to 127.0.0.1
+[Thu Oct 10 17:16:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:12 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:12 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:12 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:12 2024] [INFO] Sent warning to 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:16:22 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:16:22 2024] [INFO] Server started on port 5003
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:16:22 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:22 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to 127.0.0.1:5003
+[Thu Oct 10 17:16:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:22 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [INFO] Successfully connected to at least 3 servers.
+[Thu Oct 10 17:16:22 2024] [INFO] Server started main loop
+[Thu Oct 10 17:16:22 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:16:22 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:22 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:22 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:22 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Thu Oct 10 17:16:22 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:22 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Thu Oct 10 17:16:22 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:16:22 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:22 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Thu Oct 10 17:16:22 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [INFO] Sent warning to 127.0.0.1
+[Thu Oct 10 17:16:22 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Thu Oct 10 17:16:28 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:16:28 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:28 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:28 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:28 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:16:28 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:28 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:16:30 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:16:30 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:16:30 2024] [INFO] Server started on port 5004
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:16:30 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:16:30 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to 127.0.0.1:5003
+[Thu Oct 10 17:16:30 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to 127.0.0.1:5004
+[Thu Oct 10 17:16:30 2024] [INFO] Successfully connected to at least 3 servers.
+[Thu Oct 10 17:16:30 2024] [INFO] Server started main loop
+[Thu Oct 10 17:16:30 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:16:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:16:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:30 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:30 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:16:30 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:30 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:30 2024] [INFO] Sent message on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:30 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:16:30 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:30 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Thu Oct 10 17:16:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:16:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:16:30 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Thu Oct 10 17:16:30 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:16:30 2024] [INFO] Sent warning to 127.0.0.1
+[Thu Oct 10 17:16:42 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:16:42 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:16:42 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:42 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:42 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:42 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:16:52 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:52 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:52 2024] [INFO] New client/server connected on socket 11
+[Thu Oct 10 17:16:58 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:16:58 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:16:58 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:58 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:16:58 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:16:58 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:16:58 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:16:58 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:16:58 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:16:58 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:16:58 2024] [INFO] New client/server connected on socket 12
+[Thu Oct 10 17:17:12 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:12 2024] [INFO] Received data on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:12 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:12 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:12 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent message on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent message on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:12 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:17:12 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:17:12 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:17:12 2024] [ERROR] Unknown command: KEEPALIVE,0 from 127.0.0.1
+[Thu Oct 10 17:17:12 2024] [INFO] Blocked IP: 127.0.0.1 for 30 minutes.
+[Thu Oct 10 17:17:12 2024] [INFO] Blocked IP: 127.0.0.1 after repeated invalid commands
+[Thu Oct 10 17:17:16 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:17:16 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:17:16 2024] [INFO] Closing log file.
+[Thu Oct 10 17:17:16 2024] [INFO] Connection closed on socket: 12
+[Thu Oct 10 17:17:22 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:22 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent message on socket 11: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:22 2024] [INFO] Received data on socket 11: KEEPALIVE,0
+[Thu Oct 10 17:17:22 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:22 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:30 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:17:30 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:17:30 2024] [INFO] Closing log file.
+[Thu Oct 10 17:17:30 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent message on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:17:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:17:30 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:17:30 2024] [INFO] Blocked IP attempted to connect: 127.0.0.1
+[Thu Oct 10 17:17:41 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:17:41 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:17:41 2024] [INFO] Closing log file.
+[Thu Oct 10 17:17:52 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:17:52 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:17:52 2024] [INFO] Closing log file.
+[Thu Oct 10 17:22:21 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:22:21 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:22:21 2024] [INFO] Server started on port 5004
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:21 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:21 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:21 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:21 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:22:21 2024] [INFO] Successfully connected to 127.0.0.1:5004
+[Thu Oct 10 17:22:21 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:22:21 2024] [INFO] Server started main loop
+[Thu Oct 10 17:22:21 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:22:21 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:22:21 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:22:21 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:21 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:21 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:21 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:21 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:25 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:22:25 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:22:25 2024] [INFO] Server started on port 5003
+[Thu Oct 10 17:22:25 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:25 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:25 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:25 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:25 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:25 2024] [INFO] Successfully connected to 127.0.0.1:5003
+[Thu Oct 10 17:22:25 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:22:25 2024] [INFO] Successfully connected to 127.0.0.1:5004
+[Thu Oct 10 17:22:25 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:22:25 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:22:25 2024] [INFO] Server started main loop
+[Thu Oct 10 17:22:25 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:22:25 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:22:25 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:22:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:25 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:25 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:22:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:25 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:25 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:22:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:30 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:22:30 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5004
+[Thu Oct 10 17:22:30 2024] [INFO] Server started on port 5002
+[Thu Oct 10 17:22:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:30 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to 127.0.0.1:5003
+[Thu Oct 10 17:22:30 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to 127.0.0.1:5004
+[Thu Oct 10 17:22:30 2024] [INFO] Successfully connected to at least 3 servers.
+[Thu Oct 10 17:22:30 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:22:30 2024] [INFO] Server started main loop
+[Thu Oct 10 17:22:30 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:22:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:30 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:22:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:36 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:22:36 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5002 to 5004
+[Thu Oct 10 17:22:36 2024] [INFO] Server started on port 5001
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:36 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to 127.0.0.1:5003
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5004
+[Thu Oct 10 17:22:36 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to 127.0.0.1:5004
+[Thu Oct 10 17:22:36 2024] [INFO] Successfully connected to at least 3 servers.
+[Thu Oct 10 17:22:36 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:22:36 2024] [INFO] Server started main loop
+[Thu Oct 10 17:22:36 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:22:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:22:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:22:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:22:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:22:51 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:51 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:22:51 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:22:51 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:51 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:22:51 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:22:51 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5003
+[Thu Oct 10 17:22:51 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:22:51 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:22:55 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:22:55 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:22:55 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:22:55 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:22:55 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:22:55 2024] [INFO] New client/server connected on socket 11
+[Thu Oct 10 17:23:00 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:23:00 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:23:00 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:23:21 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:21 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [ERROR] Failed to send message on socket 0
+[Thu Oct 10 17:23:21 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [INFO] Sent message on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:21 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:21 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:21 2024] [INFO] Sent message on socket 11: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:21 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [INFO] Sent message on socket 12: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:21 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:21 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:23:21 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:21 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:21 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:21 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:21 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:21 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:25 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:25 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Sent message on socket 11: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [INFO] Sent message on socket 12: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Received data on socket 11: KEEPALIVE,0
+[Thu Oct 10 17:23:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:25 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:25 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:25 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:25 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:30 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Sent message on socket 12: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:30 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Received data on socket 10: KEEPALIVE,0
+[Thu Oct 10 17:23:30 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:30 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:30 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:36 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:36 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:23:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:23:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:23:36 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:23:36 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:23:36 2024] [INFO] Keep-alive acknowledged from server: 127.0.0.1
+[Thu Oct 10 17:24:08 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:24:08 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:24:08 2024] [INFO] Closing log file.
+[Thu Oct 10 17:24:08 2024] [INFO] Connection closed on socket: 9
+[Thu Oct 10 17:24:08 2024] [INFO] Connection closed on socket: 9
+[Thu Oct 10 17:24:08 2024] [INFO] Connection closed on socket: 9
+[Thu Oct 10 17:24:10 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:24:10 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:24:10 2024] [INFO] Closing log file.
+[Thu Oct 10 17:24:10 2024] [INFO] Connection closed on socket: 8
+[Thu Oct 10 17:24:10 2024] [INFO] Connection closed on socket: 8
+[Thu Oct 10 17:24:13 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:24:13 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:24:13 2024] [INFO] Closing log file.
+[Thu Oct 10 17:24:13 2024] [INFO] Connection closed on socket: 7
+[Thu Oct 10 17:24:15 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:24:15 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:24:15 2024] [INFO] Closing log file.
