@@ -109,3 +109,7 @@ HELO,A5_1
 
 The server logs all commands and activities in `server_log.txt`.
 The server is able to write upto 5MB into one log file then it uses another log file.
+
+## Extra
+
+We run the server behind a Fortigate with a Geo Blocker, we only allow Iceland
