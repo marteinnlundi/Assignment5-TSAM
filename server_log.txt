@@ -927,3 +927,664 @@
 [Thu Oct 10 17:24:15 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
 [Thu Oct 10 17:24:15 2024] [INFO] Listening socket closed.
 [Thu Oct 10 17:24:15 2024] [INFO] Closing log file.
+[Thu Oct 10 17:35:13 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:35:13 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:35:13 2024] [INFO] Server started on port 60000
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:35:13 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:35:13 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:35:13 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:35:13 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:35:13 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:35:13 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:35:13 2024] [INFO] Server started main loop
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:35:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:35:27 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:35:35 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:35:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:35:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:35:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:35:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:35:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:35:47 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello Group B!
+
+[Thu Oct 10 17:35:47 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello Group B!
+]
+[Thu Oct 10 17:35:47 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello Group B!]
+[Thu Oct 10 17:35:47 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:36:07 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+
+[Thu Oct 10 17:36:07 2024] [DEBUG] Raw command received: [KEEPALIVE,0
+]
+[Thu Oct 10 17:36:07 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:36:07 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:36:07 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:36:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:36:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:36:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:36:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:36:13 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:36:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:36:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:36:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:36:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:36:43 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:37:04 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:37:04 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:37:04 2024] [INFO] Closing log file.
+[Thu Oct 10 17:38:51 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:38:51 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:38:51 2024] [INFO] Server started on port 5001
+[Thu Oct 10 17:38:51 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:38:51 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:38:51 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:38:51 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:38:51 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:38:51 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:38:51 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:38:51 2024] [INFO] Server started main loop
+[Thu Oct 10 17:38:51 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:38:51 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:38:51 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:38:51 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:38:51 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:38:51 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:38:51 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:38:51 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:38:51 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:39:00 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:39:00 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:39:00 2024] [INFO] Server started on port 5002
+[Thu Oct 10 17:39:00 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:39:00 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:39:00 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:39:00 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:39:00 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:39:00 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:39:00 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:39:00 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:39:00 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:39:00 2024] [INFO] Server started main loop
+[Thu Oct 10 17:39:00 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:39:00 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:39:00 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:39:00 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:39:00 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:39:00 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:39:00 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:39:00 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:39:00 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:39:00 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:39:00 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:39:00 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:39:00 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:39:00 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:39:00 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:39:00 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:39:21 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:39:21 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:39:21 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:39:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:39:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:39:21 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:39:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:39:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:39:30 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:39:32 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:39:32 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:39:32 2024] [INFO] Closing log file.
+[Thu Oct 10 17:39:32 2024] [INFO] Connection closed on socket: 8
+[Thu Oct 10 17:39:34 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:39:34 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:39:34 2024] [INFO] Closing log file.
+[Thu Oct 10 17:40:40 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:40:40 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:40:40 2024] [INFO] Server started on port 60000
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:40:40 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:40:40 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:40 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:40 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:40 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:40 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:40:40 2024] [INFO] Server started main loop
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:46 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:40:46 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:40:46 2024] [INFO] Server started on port 5001
+[Thu Oct 10 17:40:46 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:40:46 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:40:46 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:46 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:46 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:46 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:46 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:40:46 2024] [INFO] Server started main loop
+[Thu Oct 10 17:40:46 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:40:46 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:40:46 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:40:46 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:40:46 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:40:46 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:46 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:46 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:40:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:54 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:40:54 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:40:54 2024] [INFO] Server started on port 5002
+[Thu Oct 10 17:40:54 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:40:54 2024] [INFO] Successfully connected to 127.0.0.1:5001
+[Thu Oct 10 17:40:54 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:40:54 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:40:54 2024] [INFO] Successfully connected to 127.0.0.1:5002
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:40:54 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:40:54 2024] [INFO] Server started main loop
+[Thu Oct 10 17:40:54 2024] [INFO] New client/server connected on socket 7
+[Thu Oct 10 17:40:54 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:40:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:40:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:40:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:40:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:40:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:40:54 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:40:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:40:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:40:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:40:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:40:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:40:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:40:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:40:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:06 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:41:10 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5001
+[Thu Oct 10 17:41:10 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:41:10 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:41:10 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:41:10 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:41:10 2024] [INFO] New client/server connected on socket 8
+[Thu Oct 10 17:41:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:41:16 2024] [INFO] Successfully connected to server 127.0.0.1 on port 5002
+[Thu Oct 10 17:41:16 2024] [INFO] Reconnected to server 127.0.0.1
+[Thu Oct 10 17:41:16 2024] [INFO] New client/server connected on socket 9
+[Thu Oct 10 17:41:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:41:21 2024] [INFO] Received data on socket 5: HELO,Group_B
+[Thu Oct 10 17:41:21 2024] [DEBUG] Raw command received: [HELO,Group_B]
+[Thu Oct 10 17:41:21 2024] [DEBUG] Trimmed command for processing: [HELO,Group_B]
+[Thu Oct 10 17:41:21 2024] [INFO] HELO received from GroupID: Group_B
+[Thu Oct 10 17:41:21 2024] [INFO] Sent SERVERS list to socket: 5
+[Thu Oct 10 17:41:21 2024] [INFO] Sent HELO response to socket: 5
+[Thu Oct 10 17:41:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:41:31 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A!
+[Thu Oct 10 17:41:31 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello from Group A!]
+[Thu Oct 10 17:41:31 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello from Group A!]
+[Thu Oct 10 17:41:31 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:41:40 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:41:40 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:40 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:41:40 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:41:40 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:40 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:40 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:41:40 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:40 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:40 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:40 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:40 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:40 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:40 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:41:42 2024] [INFO] Connection closed on socket: 5
+[Thu Oct 10 17:41:45 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:41:46 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:41:46 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:46 2024] [INFO] Sent message on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:41:46 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:41:46 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:41:46 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:46 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:46 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:46 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:46 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:46 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:46 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:46 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:46 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:41:53 2024] [INFO] Received data on socket 5: GETMSGS,Group_B
+[Thu Oct 10 17:41:53 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:41:53 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:41:53 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:41:53 2024] [INFO] Messages sent to GroupID: Group_B
+[Thu Oct 10 17:41:54 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:41:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:41:54 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:41:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:41:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:41:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:41:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:41:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:41:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:41:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:41:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:41:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:02 2024] [INFO] Connection closed on socket: 5
+[Thu Oct 10 17:42:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:11 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:42:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:16 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:19 2024] [INFO] Received data on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:42:19 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:19 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:19 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:19 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:34 2024] [INFO] Connection closed on socket: 5
+[Thu Oct 10 17:42:37 2024] [INFO] New client/server connected on socket 10
+[Thu Oct 10 17:42:40 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:42:40 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:42:40 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:40 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:40 2024] [INFO] Sent message on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:42:40 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:40 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:40 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:40 2024] [INFO] Received data on socket 8: KEEPALIVE,0
+[Thu Oct 10 17:42:40 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:40 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:40 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:40 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:40 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:40 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:44 2024] [INFO] Received data on socket 10: SENDMSG,Group_A,Group_B,Hello from Group B!
+[Thu Oct 10 17:42:44 2024] [DEBUG] Raw command received: [SENDMSG,Group_A,Group_B,Hello from Group B!]
+[Thu Oct 10 17:42:44 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_A,Group_B,Hello from Group B!]
+[Thu Oct 10 17:42:44 2024] [INFO] Message stored for GroupID: Group_A
+[Thu Oct 10 17:42:46 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:42:46 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:46 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:42:46 2024] [INFO] Sent message on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:42:46 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:46 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:46 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:46 2024] [INFO] Received data on socket 9: KEEPALIVE,0
+[Thu Oct 10 17:42:46 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:46 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:46 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:46 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:46 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:46 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:46 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:42:54 2024] [INFO] Sent message on socket 5: KEEPALIVE,0
+[Thu Oct 10 17:42:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:54 2024] [INFO] Sent message on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:42:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:42:54 2024] [INFO] Sent KEEPALIVE to server 127.0.0.1, messages queued: 0
+[Thu Oct 10 17:42:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:54 2024] [INFO] Received data on socket 7: KEEPALIVE,0
+[Thu Oct 10 17:42:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:54 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:42:54 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:42:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:54 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:42:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:54 2024] [INFO] No messages queued for client: 
+[Thu Oct 10 17:42:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:42:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:42:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:43:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:43:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:43:10 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:43:13 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:43:13 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:43:13 2024] [INFO] Closing log file.
+[Thu Oct 10 17:43:13 2024] [INFO] Connection closed on socket: 7
+[Thu Oct 10 17:43:15 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:43:15 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:43:15 2024] [INFO] Closing log file.
+[Thu Oct 10 17:43:17 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:43:17 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:43:17 2024] [INFO] Closing log file.
+[Thu Oct 10 17:44:54 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:44:54 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:44:54 2024] [INFO] Server started on port 60000
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:44:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:44:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:44:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:44:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:44:54 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:44:54 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:44:54 2024] [INFO] Server started main loop
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:44:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:45:03 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:45:15 2024] [INFO] Received data on socket 5: HELO,Group_A
+[Thu Oct 10 17:45:15 2024] [DEBUG] Raw command received: [HELO,Group_A]
+[Thu Oct 10 17:45:15 2024] [DEBUG] Trimmed command for processing: [HELO,Group_A]
+[Thu Oct 10 17:45:15 2024] [INFO] HELO received from GroupID: Group_A
+[Thu Oct 10 17:45:15 2024] [INFO] Sent SERVERS list to socket: 5
+[Thu Oct 10 17:45:15 2024] [INFO] Sent HELO response to socket: 5
+[Thu Oct 10 17:45:24 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:45:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:45:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:45:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:45:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:45:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:45:31 2024] [INFO] Received data on socket 6: HELO,Group_B
+[Thu Oct 10 17:45:31 2024] [DEBUG] Raw command received: [HELO,Group_B]
+[Thu Oct 10 17:45:31 2024] [DEBUG] Trimmed command for processing: [HELO,Group_B]
+[Thu Oct 10 17:45:31 2024] [INFO] HELO received from GroupID: Group_B
+[Thu Oct 10 17:45:31 2024] [INFO] Sent SERVERS list to socket: 6
+[Thu Oct 10 17:45:31 2024] [INFO] Sent HELO response to socket: 6
+[Thu Oct 10 17:45:42 2024] [INFO] Connection closed on socket: 6
+[Thu Oct 10 17:45:53 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A - Message 1
+[Thu Oct 10 17:45:53 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 1]
+[Thu Oct 10 17:45:53 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 1]
+[Thu Oct 10 17:45:53 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:45:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:45:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:45:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:45:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:45:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:46:01 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A - Message 2
+[Thu Oct 10 17:46:01 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 2]
+[Thu Oct 10 17:46:01 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 2]
+[Thu Oct 10 17:46:01 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:46:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:46:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:46:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:46:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:46:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:46:28 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:46:37 2024] [INFO] Received data on socket 6: HELO,Group_B
+[Thu Oct 10 17:46:37 2024] [DEBUG] Raw command received: [HELO,Group_B]
+[Thu Oct 10 17:46:37 2024] [DEBUG] Trimmed command for processing: [HELO,Group_B]
+[Thu Oct 10 17:46:37 2024] [INFO] HELO received from GroupID: Group_B
+[Thu Oct 10 17:46:37 2024] [INFO] Sent SERVERS list to socket: 6
+[Thu Oct 10 17:46:37 2024] [INFO] Sent HELO response to socket: 6
+[Thu Oct 10 17:46:45 2024] [INFO] Received data on socket 6: GETMSGS,Group_B
+[Thu Oct 10 17:46:45 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:46:45 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:46:45 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:46:45 2024] [INFO] Messages sent to GroupID: Group_B
+[Thu Oct 10 17:46:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:46:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:46:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:46:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:46:54 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:47:05 2024] [INFO] Connection closed on socket: 6
+[Thu Oct 10 17:47:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:47:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:47:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:47:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:47:24 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:47:42 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 17:47:42 2024] [INFO] Listening socket closed.
+[Thu Oct 10 17:47:42 2024] [INFO] Closing log file.
+[Thu Oct 10 17:53:52 2024] [INFO] Log file opened successfully
+[Thu Oct 10 17:53:52 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 17:53:52 2024] [INFO] Server started on port 60000
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:53:52 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:53:52 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:53:52 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:53:52 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:53:52 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 17:53:52 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 17:53:52 2024] [INFO] Server started main loop
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:53:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:53:59 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 17:54:04 2024] [INFO] Received data on socket 5: HELO,Group_A
+[Thu Oct 10 17:54:04 2024] [DEBUG] Raw command received: [HELO,Group_A]
+[Thu Oct 10 17:54:04 2024] [DEBUG] Trimmed command for processing: [HELO,Group_A]
+[Thu Oct 10 17:54:04 2024] [INFO] HELO received from GroupID: Group_A
+[Thu Oct 10 17:54:04 2024] [INFO] Sent SERVERS list to socket: 5
+[Thu Oct 10 17:54:04 2024] [INFO] Sent HELO response to socket: 5
+[Thu Oct 10 17:54:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:54:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:54:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:54:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:54:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:54:25 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 17:54:30 2024] [INFO] Received data on socket 6: HELO,Group_B
+[Thu Oct 10 17:54:30 2024] [DEBUG] Raw command received: [HELO,Group_B]
+[Thu Oct 10 17:54:30 2024] [DEBUG] Trimmed command for processing: [HELO,Group_B]
+[Thu Oct 10 17:54:30 2024] [INFO] HELO received from GroupID: Group_B
+[Thu Oct 10 17:54:30 2024] [INFO] Sent SERVERS list to socket: 6
+[Thu Oct 10 17:54:30 2024] [INFO] Sent HELO response to socket: 6
+[Thu Oct 10 17:54:47 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A - Message 1
+[Thu Oct 10 17:54:47 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 1]
+[Thu Oct 10 17:54:47 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 1]
+[Thu Oct 10 17:54:47 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:54:47 2024] [DEBUG] Current stored messages for GroupID Group_B: 
+[Thu Oct 10 17:54:47 2024] [DEBUG] From Group_A: Hello from Group A - Message 1
+[Thu Oct 10 17:54:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:54:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:54:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:54:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:54:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:54:57 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A - Message 2
+[Thu Oct 10 17:54:57 2024] [DEBUG] Raw command received: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 2]
+[Thu Oct 10 17:54:57 2024] [DEBUG] Trimmed command for processing: [SENDMSG,Group_B,Group_A,Hello from Group A - Message 2]
+[Thu Oct 10 17:54:57 2024] [INFO] Message stored for GroupID: Group_B
+[Thu Oct 10 17:54:57 2024] [DEBUG] Current stored messages for GroupID Group_B: 
+[Thu Oct 10 17:54:57 2024] [DEBUG] From Group_A: Hello from Group A - Message 1
+[Thu Oct 10 17:54:57 2024] [DEBUG] From Group_A: Hello from Group A - Message 2
+[Thu Oct 10 17:55:07 2024] [INFO] Received data on socket 6: GETMSGS,Group_B
+[Thu Oct 10 17:55:07 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:07 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:07 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:55:07 2024] [INFO] Messages sent to GroupID: Group_B
+[Thu Oct 10 17:55:11 2024] [INFO] Received data on socket 6: GETMSGS,Group_B
+[Thu Oct 10 17:55:11 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:11 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:11 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:55:11 2024] [INFO] No messages found for GroupID: Group_B
+[Thu Oct 10 17:55:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:55:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:55:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:55:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:55:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:55:46 2024] [INFO] Received data on socket 6: GETMSGS,Group_B
+[Thu Oct 10 17:55:46 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:46 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:46 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:55:46 2024] [INFO] No messages found for GroupID: Group_B
+[Thu Oct 10 17:55:51 2024] [INFO] Received data on socket 6: GETMSGS,Group_B
+[Thu Oct 10 17:55:51 2024] [DEBUG] Raw command received: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:51 2024] [DEBUG] Trimmed command for processing: [GETMSGS,Group_B]
+[Thu Oct 10 17:55:51 2024] [INFO] GETMSGS received for GroupID: Group_B
+[Thu Oct 10 17:55:51 2024] [INFO] No messages found for GroupID: Group_B
+[Thu Oct 10 17:55:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:55:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:55:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:55:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:55:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:56:18 2024] [INFO] Received data on socket 6: KEEPALIVE,0
+[Thu Oct 10 17:56:18 2024] [DEBUG] Raw command received: [KEEPALIVE,0]
+[Thu Oct 10 17:56:18 2024] [DEBUG] Trimmed command for processing: [KEEPALIVE,0]
+[Thu Oct 10 17:56:18 2024] [INFO] KEEPALIVE received from 127.0.0.1 with message count: 0
+[Thu Oct 10 17:56:18 2024] [INFO] No messages queued for client: Group_B
+[Thu Oct 10 17:56:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:56:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:56:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:56:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:56:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:56:28 2024] [INFO] Received data on socket 6: LISTSERVERS
+[Thu Oct 10 17:56:28 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Thu Oct 10 17:56:28 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Thu Oct 10 17:56:28 2024] [ERROR] Unknown command: LISTSERVERS
+[Thu Oct 10 17:56:39 2024] [INFO] Received data on socket 6: STATUSREQ
+[Thu Oct 10 17:56:39 2024] [DEBUG] Raw command received: [STATUSREQ]
+[Thu Oct 10 17:56:39 2024] [DEBUG] Trimmed command for processing: [STATUSREQ]
+[Thu Oct 10 17:56:39 2024] [INFO] STATUSREQ received
+[Thu Oct 10 17:56:39 2024] [INFO] STATUSRESP sent to socket: 6
+[Thu Oct 10 17:56:45 2024] [INFO] Received data on socket 6: STATUSREQ
+[Thu Oct 10 17:56:45 2024] [DEBUG] Raw command received: [STATUSREQ]
+[Thu Oct 10 17:56:45 2024] [DEBUG] Trimmed command for processing: [STATUSREQ]
+[Thu Oct 10 17:56:45 2024] [INFO] STATUSREQ received
+[Thu Oct 10 17:56:45 2024] [INFO] STATUSRESP sent to socket: 6
+[Thu Oct 10 17:56:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:56:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:56:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:56:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:56:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:56:53 2024] [INFO] Received data on socket 6: LISTSERVERS
+[Thu Oct 10 17:56:53 2024] [DEBUG] Raw command received: [LISTSERVERS]
+[Thu Oct 10 17:56:53 2024] [DEBUG] Trimmed command for processing: [LISTSERVERS]
+[Thu Oct 10 17:56:53 2024] [ERROR] Unknown command: LISTSERVERS
+[Thu Oct 10 17:57:02 2024] [INFO] Connection closed on socket: 6
+[Thu Oct 10 17:57:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:57:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:57:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:57:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:57:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:57:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:57:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:57:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:57:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:57:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:58:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:58:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:58:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:58:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:58:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:58:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:58:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:58:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:58:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:58:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:59:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:59:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:59:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:59:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:59:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 17:59:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 17:59:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 17:59:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 17:59:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 17:59:52 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 18:00:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 18:00:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 18:00:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 18:00:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 18:00:22 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 18:00:30 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Thu Oct 10 18:00:30 2024] [INFO] Listening socket closed.
+[Thu Oct 10 18:00:30 2024] [INFO] Closing log file.
+[Thu Oct 10 18:00:42 2024] [INFO] Log file opened successfully
+[Thu Oct 10 18:00:42 2024] [INFO] Populated server list with IP: 127.0.0.1 and ports from 5001 to 5005
+[Thu Oct 10 18:00:42 2024] [INFO] Server started on port 60000
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 18:00:42 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 18:00:42 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 18:00:42 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 18:00:42 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 18:00:42 2024] [ERROR] Failed to connect to server 127.0.0.1
+[Thu Oct 10 18:00:42 2024] [WARNING] Less than 3 server connections established.
+[Thu Oct 10 18:00:42 2024] [INFO] Server started main loop
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 18:00:42 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 18:00:52 2024] [INFO] New client/server connected on socket 5
+[Thu Oct 10 18:00:58 2024] [INFO] New client/server connected on socket 6
+[Thu Oct 10 18:01:04 2024] [INFO] Received data on socket 5: HELO,Group_A
+[Thu Oct 10 18:01:04 2024] [INFO] HELO received from GroupID: Group_A
+[Thu Oct 10 18:01:04 2024] [INFO] Sent SERVERS list to socket: 5
+[Thu Oct 10 18:01:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5001
+[Thu Oct 10 18:01:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5002
+[Thu Oct 10 18:01:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5003
+[Thu Oct 10 18:01:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5004
+[Thu Oct 10 18:01:12 2024] [ERROR] connect() failed to 127.0.0.1 on port 5005
+[Thu Oct 10 18:01:14 2024] [INFO] Received data on socket 6: HELO,Group_B
+[Thu Oct 10 18:01:14 2024] [INFO] HELO received from GroupID: Group_B
+[Thu Oct 10 18:01:14 2024] [INFO] Sent SERVERS list to socket: 6
+[Thu Oct 10 18:01:28 2024] [INFO] Received data on socket 5: SENDMSG,Group_B,Group_A,Hello from Group A - Message 1

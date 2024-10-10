@@ -531,45 +531,18 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         return;
     }
 
-    // Track failed commands for the IP
-    if (trimmedCommand.empty() || (trimmedCommand.find("HELO") != 0 && trimmedCommand.find("SENDMSG") != 0 && trimmedCommand.find("GETMSGS") != 0 && trimmedCommand.find("KEEPALIVE") != 0)) {
-        failedCommandCount[clientIP]++;
-        logMessage("ERROR", "Unknown command: " + trimmedCommand + " from " + clientIP);
-
-        if (failedCommandCount[clientIP] == 1) {
-            // Send a warning after the first failed command
-            std::string warningMsg = "WARNING: Unknown command received. Continued attempts may result in blocking.";
-            send(clientSocket, frameMessage(warningMsg).c_str(), frameMessage(warningMsg).length(), 0);
-            logMessage("INFO", "Sent warning to " + clientIP);
-        }
-
-        if (failedCommandCount[clientIP] >= 2) {
-            // Block the IP after the second failed command
-            blockIP(clientIP);  // Block the IP after 2 failed commands
-            std::string blockMsg = "BLOCKED: Too many invalid commands. You have been blocked for 30 minutes.";
-            send(clientSocket, frameMessage(blockMsg).c_str(), frameMessage(blockMsg).length(), 0);
-            logMessage("INFO", "Blocked IP: " + clientIP + " after repeated invalid commands");
-
-            close(clientSocket);  // Close the connection
-            FD_CLR(clientSocket, &openSockets);  // Remove the socket from the FD set
-            return;  // Exit after closing and removing the socket
-        }
-        return;
-    }
-
-    // Reset failed command count on successful command
-    failedCommandCount[clientIP] = 0;
-
     if (cmd.compare("HELO") == 0 && tokens.size() == 2) {
         std::string groupID = trim(tokens[1]);
         logMessage("INFO", "HELO received from GroupID: " + groupID);
+        clientNames[clientSocket] = groupID;  // Track the client's group ID
+
         sendServersList(clientSocket);  // Respond with SERVERS list
-        
+
         // Send HELO confirmation response
         std::string heloResponse = "HELO Response from " + currentServerName;
         send(clientSocket, frameMessage(heloResponse).c_str(), frameMessage(heloResponse).length(), 0);
         logMessage("INFO", "Sent HELO response to socket: " + std::to_string(clientSocket));
-        
+
     } else if (cmd.compare("SENDMSG") == 0 && tokens.size() >= 4) {
         std::string toGroupID = trim(tokens[1]);
         std::string fromGroupID = trim(tokens[2]);
@@ -594,23 +567,34 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         storedMessages[toGroupID].push_back("From " + fromGroupID + ": " + messageContent);
         logMessage("INFO", "Message stored for GroupID: " + toGroupID);
 
+        // Debug logging for stored messages
+        logMessage("DEBUG", "Current stored messages for GroupID " + toGroupID + ": ");
+        for (const auto &msg : storedMessages[toGroupID]) {
+            logMessage("DEBUG", msg);
+        }
+
     } else if (cmd.compare("GETMSGS") == 0 && tokens.size() == 2) {
         std::string groupID = trim(tokens[1]);
         logMessage("INFO", "GETMSGS received for GroupID: " + groupID);
 
         if (storedMessages.find(groupID) != storedMessages.end() && !storedMessages[groupID].empty()) {
+            // Send all messages for the group
             for (const std::string &msg : storedMessages[groupID]) {
                 std::string framedMsg = frameMessage(msg + "\n");
                 send(clientSocket, framedMsg.c_str(), framedMsg.length(), 0);
             }
-            storedMessages[groupID].clear();  // Clear messages after sending
+
+            // Clear messages after sending
+            storedMessages[groupID].clear();
             logMessage("INFO", "Messages sent to GroupID: " + groupID);
         } else {
+            // No messages found
             std::string noMessages = "No messages found for GroupID: " + groupID;
             std::string framedNoMessages = frameMessage(noMessages);
             send(clientSocket, framedNoMessages.c_str(), framedNoMessages.length(), 0);
             logMessage("INFO", "No messages found for GroupID: " + groupID);
         }
+
     } else if (cmd.compare("STATUSREQ") == 0) {
         logMessage("INFO", "STATUSREQ received");
 
@@ -624,16 +608,25 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         send(clientSocket, framedStatus.c_str(), framedStatus.length(), 0);
         logMessage("INFO", "STATUSRESP sent to socket: " + std::to_string(clientSocket));
 
-    // Handle KEEPALIVE Command
-    } else if (cmd.compare("KEEPALIVE") == 0 && tokens.size() == 2) {
-        std::string messageCount = trim(tokens[1]);
-        logMessage("INFO", "KEEPALIVE received from " + clientIP + " with message count: " + messageCount);
-        
-        // Update last keep-alive time for the connected server
-        connectedServers[clientSocket].lastKeepAlive = time(0);
-        
-        // Log keep-alive response
-        logMessage("INFO", "Keep-alive acknowledged from server: " + clientIP);
+    } else if (cmd.compare("KEEPALIVE") == 0) {
+        std::string clientGroupID = clientNames[clientSocket];  // Get client GroupID from the map
+
+        logMessage("INFO", "KEEPALIVE received from " + clientIP + " with message count: " + std::to_string(storedMessages[clientGroupID].size()));
+
+        // Check if there are any messages for this client
+        if (storedMessages.find(clientGroupID) != storedMessages.end() && !storedMessages[clientGroupID].empty()) {
+            for (const std::string &msg : storedMessages[clientGroupID]) {
+                std::string framedMsg = frameMessage(msg + "\n");
+                send(clientSocket, framedMsg.c_str(), framedMsg.length(), 0);
+            }
+            storedMessages[clientGroupID].clear();  // Clear the messages after sending
+            logMessage("INFO", "Queued messages sent to client: " + clientGroupID);
+        } else {
+            // No messages queued, just acknowledge the KEEPALIVE
+            std::string keepAliveAck = "KEEPALIVE: No messages queued";
+            send(clientSocket, frameMessage(keepAliveAck).c_str(), frameMessage(keepAliveAck).length(), 0);
+            logMessage("INFO", "No messages queued for client: " + clientGroupID);
+        }
 
     } else {
         logMessage("ERROR", "Unknown command: " + cmd);
