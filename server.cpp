@@ -68,6 +68,7 @@ int listenSock;
 
 #define SOH 0x01  // Start of Header
 #define EOT 0x04  // End of Transmission
+#define DLE 0x10  // Data Link Escape
 #define MAX_BUFFER 5000
 #define BACKLOG 5  // Maximum number of queued connections
 #define TIMEOUT_SEC 5  // 5-second timeout for waiting for server response
@@ -105,9 +106,10 @@ std::map<std::string, int> failedCommandCount;
 fd_set openSockets;  // File descriptor set for open sockets
 
 void rotateLogFile();
+std::string unframeMessage(const std::string &msg);
+std::string frameMessage(const std::string &msg);
 
 // Logs messages to a file
-
 void logMessage(const std::string& logType, const std::string& message) {
     std::lock_guard<std::mutex> lock(logMutex);  // Lock the mutex
 
@@ -327,11 +329,10 @@ int connectToServer() {
     return -1;
 }
 
-
 // Send the "HELO,A5_1" command to a random server
 void sendHELOCommand(int sockfd) {
     std::string heloCommand = "HELO," + currentServerName;  // Send the current server's group ID
-    std::string framedCommand = std::string(1, SOH) + heloCommand + std::string(1, EOT);
+    std::string framedCommand = frameMessage(heloCommand);
 
     // Log local port info for verification
     struct sockaddr_in localAddr;
@@ -355,7 +356,7 @@ void sendHELOCommand(int sockfd) {
 // Send the "HELO,A5_1" command to a random server with retry logic
 void sendHELOCommandWithRetry(int sockfd) {
     std::string heloCommand = "HELO," + currentServerName;  // Send the current server's group ID
-    std::string framedCommand = std::string(1, SOH) + heloCommand + std::string(1, EOT);
+    std::string framedCommand = frameMessage(heloCommand);
     
     int maxRetries = 3;  // Maximum number of retries for the HELO command
     int retryCount = 0;
@@ -392,9 +393,7 @@ void sendHELOCommandWithRetry(int sockfd) {
     }
 }
 
-ssize_t recvWithLogging(int sockfd, char *buffer, size_t bufferSize); 
-std::string unframeMessage(const std::string &msg);
-std::string frameMessage(const std::string &msg);
+ssize_t recvWithLogging(int sockfd, char *buffer, size_t bufferSize);
 std::vector<std::string> splitString(const std::string &str, char delimiter);
 
 // Helper function to trim whitespace or extra characters from strings
@@ -684,15 +683,35 @@ void blockIP(const std::string &ip) {
     logMessage("INFO", "Blocked IP: " + ip + " for 30 minutes.");
 }
 
-// Helper function to frame messages with SOH and EOT
+// Helper function to frame messages with SOH and EOT, with byte-stuffing
 std::string frameMessage(const std::string &msg) {
-    return std::string(1, SOH) + msg + std::string(1, EOT);
+    std::string stuffedMsg;
+    for (char c : msg) {
+        if (c == SOH || c == EOT || c == DLE) {
+            stuffedMsg += DLE;  // Add escape character
+        }
+        stuffedMsg += c;  // Add the original character
+    }
+    return std::string(1, SOH) + stuffedMsg + std::string(1, EOT);
 }
 
-// Helper function to unframe messages (remove SOH and EOT)
+// Helper function to unframe messages (remove SOH and EOT), and un-stuff bytes
 std::string unframeMessage(const std::string &msg) {
     if (msg[0] == SOH && msg[msg.size() - 1] == EOT) {
-        return msg.substr(1, msg.size() - 2);  // Strip SOH and EOT
+        std::string data = msg.substr(1, msg.size() - 2);  // Strip SOH and EOT
+        std::string unstuffedMsg;
+        bool escapeNext = false;
+        for (char c : data) {
+            if (escapeNext) {
+                unstuffedMsg += c;
+                escapeNext = false;
+            } else if (c == DLE) {
+                escapeNext = true;
+            } else {
+                unstuffedMsg += c;
+            }
+        }
+        return unstuffedMsg;
     }
     return msg;
 }
