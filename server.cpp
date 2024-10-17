@@ -232,6 +232,12 @@ int tryToConnect(ServerInfo server) {
 
     logMessage("INFO", "Successfully connected to server " + server.ipAddress + " on port " + std::to_string(server.port));
 
+    // Add the server to the connectedServers list after a successful connection
+    server.sockfd = sock;  // Update the socket descriptor
+    connectedServers[sock] = server;  // Add to connected servers map
+
+    logMessage("INFO", "Added connected server to list: " + server.groupID);
+
     return sock;
 }
 
@@ -398,6 +404,7 @@ void processUnframedCommand(int clientSocket, const std::string &unframedCommand
 }
 
 void handleClientCommand(int clientSocket, const std::string &command, const std::string &clientIP, fd_set &openSockets);
+void processStatusResponse(const std::string& statusResp);
 
 // Main function to process received message on a socket
 void processReceivedMessage(int sockfd, const std::string &message) {
@@ -538,6 +545,9 @@ void receiveServerResponse(int sockfd) {
 
                 // Update the last KEEPALIVE timestamp
                 connectedServers[sockfd].lastKeepAlive = time(0);
+            } else if (unframedMessage.rfind("STATUSRESP", 0) == 0) {
+                logMessage("INFO", "Received STATUSRESP message from server.");
+                processStatusResponse(unframedMessage);
             }
         }
     } 
@@ -586,7 +596,7 @@ void populateServerList(const std::string &ipAddress, int portStart, int portEnd
     serverList.clear();
     int groupNumber = 1;
     for (int port = portStart; port <= portEnd; ++port) {
-        ServerInfo newServer = {"Group_" + std::to_string(groupNumber), ipAddress, port, -1, time(0)};
+        ServerInfo newServer = {"Random_" + std::to_string(groupNumber), ipAddress, port, -1, time(0)};
         int sockfd = tryToConnect(newServer);
         if (sockfd >= 0) {
             sendHELOCommand(sockfd);
@@ -701,11 +711,34 @@ void sendServersList(int sockfd) {
     // Ensure current server's IP and port are advertised correctly
     response << "," << currentServerName << "," << currentServerIP << "," << std::to_string(port);
 
-    // Iterate over the serverList and append other connected servers' details
+    std::set<std::string> uniqueServers;  // A set to track unique servers
+
+    // Add the current server to the uniqueServers set
+    uniqueServers.insert(currentServerName + "," + currentServerIP + "," + std::to_string(port));
+
+    // Debug: Print the current connectedServers list
+    logMessage("DEBUG", "Connected servers list before adding new entries:");
+    for (const auto& connectedServer : connectedServers) {
+        const ServerInfo& serverInfo = connectedServer.second; // Access the ServerInfo from the map
+        std::string serverDetails = serverInfo.groupID + "," + serverInfo.ipAddress + "," + std::to_string(serverInfo.port);
+        logMessage("DEBUG", serverDetails);
+
+        if (uniqueServers.find(serverDetails) == uniqueServers.end()) {
+            uniqueServers.insert(serverDetails);
+            response << ";" << serverDetails;
+        }
+    }
+
+    // Debug: Print the current serverList before modifying it
+    logMessage("DEBUG", "ServerList before adding to SERVERS list:");
     for (const auto& server : serverList) {
-        logMessage("DEBUG", "Adding server to SERVERS list: " +
-                   server.groupID + "," + server.ipAddress + "," + std::to_string(server.port));
-        response << ";" << server.groupID << "," << server.ipAddress << "," << std::to_string(server.port);
+        std::string serverDetails = server.groupID + "," + server.ipAddress + "," + std::to_string(server.port);
+        logMessage("DEBUG", serverDetails);
+
+        if (uniqueServers.find(serverDetails) == uniqueServers.end()) {
+            uniqueServers.insert(serverDetails);
+            response << ";" << serverDetails;
+        }
     }
 
     // Frame the message with SOH and EOT
@@ -739,43 +772,71 @@ void monitorKeepAlive() {
     }
 }
 
-// Send periodic keep-alive messages to all connected servers
+// Send periodic keep-alive messages to all servers in serverList
 void sendKeepAliveMessages() {
     time_t currentTime = time(0);
 
-    for (auto it = connectedServers.begin(); it != connectedServers.end(); ) {
-        ServerInfo &server = it->second;
+    for (auto it = serverList.begin(); it != serverList.end();) {
+        ServerInfo &server = *it;
 
-        // Send KEEPALIVE if the last one was sent more than 60 seconds ago
+        // Only proceed if enough time has passed since the last KEEPALIVE
         if (difftime(currentTime, server.lastKeepAlive) >= 60) {
-            std::string keepAliveMsg = frameMessage("KEEPALIVE");
+            // Count the number of messages waiting for this server
+            int numMessages = 0;
+            if (storedMessages.find(server.groupID) != storedMessages.end()) {
+                numMessages = storedMessages[server.groupID].size();
+            }
 
+            // Prepare the KEEPALIVE message
+            std::string keepAliveMsg = frameMessage("KEEPALIVE," + std::to_string(numMessages));
+
+            // Try to send the KEEPALIVE message
             ssize_t result = send(server.sockfd, keepAliveMsg.c_str(), keepAliveMsg.length(), 0);
 
             if (result < 0) {
-                if (errno == EPIPE) {
-                    // Handle broken pipe error
-                    logMessage("WARNING", "Broken pipe detected for server " + server.ipAddress + ":" + std::to_string(server.port) + ". Closing connection.");
+                // Handle connection errors
+                if (errno == EPIPE || errno == EBADF || errno == ECONNRESET) {
+                    logMessage("WARNING", "Failed to send KEEPALIVE to " + server.ipAddress + ":" + std::to_string(server.port) + ". Error: " + strerror(errno));
 
-                    // Close the socket, remove from FD_SET, and erase from the map
+                    // Close the socket
                     close(server.sockfd);
-                    FD_CLR(server.sockfd, &openSockets);  // Remove from FD_SET
 
-                    // Safely remove the server from connectedServers
-                    it = connectedServers.erase(it);
+                    // Remove the server from FD_SET and mark as needing reconnection
+                    FD_CLR(server.sockfd, &openSockets);
+                    server.sockfd = -1;  // Mark as invalid socket
+
+                    // Attempt to reconnect
+                    int newSockfd = tryToConnect(server);
+                    if (newSockfd >= 0) {
+                        server.sockfd = newSockfd;  // Update with the new socket descriptor
+                        logMessage("INFO", "Reconnected to server " + server.ipAddress + ":" + std::to_string(server.port));
+                    } else {
+                        logMessage("ERROR", "Reconnection to server " + server.ipAddress + ":" + std::to_string(server.port) + " failed. Dropping connection.");
+
+                        // Remove the server from the list if reconnection fails
+                        it = serverList.erase(it);
+                        continue;  // Skip incrementing the iterator since we've removed the element
+                    }
                 } else {
-                    logMessage("ERROR", "Failed to send KEEPALIVE to " + server.ipAddress + ":" + std::to_string(server.port) + ". Error: " + strerror(errno));
-                    ++it;  // Move to the next server
+                    logMessage("ERROR", "Unexpected error sending KEEPALIVE to " + server.ipAddress + ":" + std::to_string(server.port) + ". Error: " + strerror(errno));
                 }
             } else {
+                // Successfully sent the KEEPALIVE message
                 server.lastKeepAlive = currentTime;
-                logMessage("INFO", "Sent KEEPALIVE to server " + server.ipAddress + ":" + std::to_string(server.port));
-                ++it;  // Move to the next server
+                logMessage("INFO", "Sent KEEPALIVE to server " + server.ipAddress + ":" + std::to_string(server.port) + " with " + std::to_string(numMessages) + " messages.");
             }
-        } else {
-            ++it;  // Move to the next server
         }
+
+        ++it;  // Move to the next server
     }
+
+    // Remove invalid servers from the list (those with sockfd == -1)
+    serverList.erase(
+        std::remove_if(serverList.begin(), serverList.end(), [](const ServerInfo &server) {
+            return server.sockfd == -1;
+        }),
+        serverList.end()
+    );
 }
 
 void resetBlocklist() {
@@ -785,27 +846,193 @@ void resetBlocklist() {
 
 // Process the SERVERS response
 void processServersResponse(const std::string &response) {
-    std::vector<std::string> serverEntries = splitString(response, ';'); // Split by semicolon
+    std::vector<std::string> serverEntries = splitString(response, ';');  // Split the response into individual server entries
 
-    // Clear the existing server list before populating new entries
-    serverList.clear();
+    logMessage("INFO", "Processing SERVERS response. Current connected servers: " + std::to_string(connectedServers.size()));
+
+    bool firstServerHandled = false;  // To ensure we handle the first server separately
 
     for (const auto &entry : serverEntries) {
-        std::vector<std::string> tokens = splitString(entry, ','); // Split by comma
-        if (tokens.size() == 3) {  // Expecting GroupID, IP, and Port
-            std::string groupID = trim(tokens[0]);
-            std::string ipAddress = trim(tokens[1]);
-            int port = std::stoi(trim(tokens[2]));  // Convert port to integer
+        // Parse each server entry (format: groupID, IP, port)
+        std::vector<std::string> tokens = splitString(entry, ',');
+        if (tokens.size() == 3) {
+            std::string groupID = tokens[0];
+            std::string ipAddress = tokens[1];
+            int port = std::stoi(tokens[2]);
 
-            // Check for valid IP and port
+            // Validate the server information
             if (isValidIP(ipAddress) && port > 0) {
-                ServerInfo serverInfo = {groupID, ipAddress, port, -1, time(0)}; // Default sockfd to -1
-                serverList.push_back(serverInfo);  // Add to the server list
+                // If this is the first server in the list, replace the current "Random_x" server with this one
+                if (!firstServerHandled) {
+                    logMessage("INFO", "Replacing Random_x with first server in the SERVERS list: " + groupID + ", " + ipAddress + ", " + std::to_string(port));
+
+                    // Find the "Random_x" server and replace it
+                    for (auto &server : serverList) {
+                        if (server.groupID.find("Random_") != std::string::npos) {
+                            server.groupID = groupID;
+                            server.ipAddress = ipAddress;
+                            server.port = port;
+                            logMessage("INFO", "Replaced Random_x with: " + groupID + ", " + ipAddress + ", " + std::to_string(port));
+                            break;
+                        }
+                    }
+
+                    for (auto &connectedServer : connectedServers) {
+                        if (connectedServer.second.groupID.find("Random_") != std::string::npos) {
+                            connectedServer.second.groupID = groupID;
+                            connectedServer.second.ipAddress = ipAddress;
+                            connectedServer.second.port = port;
+                            logMessage("INFO", "Replaced Random_x in connectedServers with: " + groupID + ", " + ipAddress + ", " + std::to_string(port));
+                            break;
+                        }
+                    }
+
+                    firstServerHandled = true;  // Mark that we've handled the first server
+                } else {
+                    // For the remaining servers, add them as usual if not already connected
+                    bool serverExists = false;
+
+                    // Check if the server is already in the connectedServers map
+                    for (const auto &connectedServer : connectedServers) {
+                        if (connectedServer.second.ipAddress == ipAddress && connectedServer.second.port == port) {
+                            logMessage("INFO", "Server already connected: " + groupID + ", " + ipAddress + ", " + std::to_string(port));
+                            serverExists = true;
+                            break;
+                        }
+                    }
+
+                    // If the server is not already connected, add it to the list
+                    if (!serverExists) {
+                        if (connectedServers.size() < 8) {
+                            // Add the server to connectedServers and serverList
+                            ServerInfo newServer = {groupID, ipAddress, port, -1, time(0)};
+                            connectedServers[port] = newServer;
+                            serverList.push_back(newServer);
+
+                            logMessage("INFO", "Added new server: " + groupID + ", " + ipAddress + ", " + std::to_string(port));
+                        } else {
+                            logMessage("INFO", "Connected servers limit (8) reached, skipping additional servers.");
+                            break;  // Stop adding servers if we've reached the limit
+                        }
+                    }
+                }
             } else {
-                logMessage("ERROR", "Invalid server entry: " + entry + " (Invalid IP or port)");
+                logMessage("ERROR", "Invalid server entry: " + entry);
             }
         } else {
             logMessage("ERROR", "Malformed server entry: " + entry);
+        }
+    }
+
+    // Ensure we maintain at least 3 connected servers
+    if (connectedServers.size() < 3) {
+        logMessage("WARNING", "Fewer than 3 connected servers. Current count: " + std::to_string(connectedServers.size()));
+        // Optionally: Attempt to reconnect or fetch more servers to ensure a minimum of 3 connected servers.
+    }
+
+    logMessage("INFO", "Finished processing SERVERS response. Total connected servers: " + std::to_string(connectedServers.size()));
+}
+
+void requestStatusFromServers() {
+    for (const auto& server : serverList) {
+        logMessage("INFO", "Sending STATUSREQ to " + server.groupID);
+
+        // Ensure the server is connected (i.e., has a valid socket descriptor)
+        if (server.sockfd > 0) {
+            // Send STATUSREQ command to the server
+            std::string statusReqCommand = frameMessage("STATUSREQ");
+            ssize_t result = send(server.sockfd, statusReqCommand.c_str(), statusReqCommand.length(), 0);
+
+            if (result >= 0) {
+                logMessage("INFO", "Sent STATUSREQ to " + server.groupID);
+
+                // Wait for the response
+                char buffer[MAX_BUFFER];
+                ssize_t bytesReceived = recvWithLogging(server.sockfd, buffer, MAX_BUFFER);
+                if (bytesReceived > 0) {
+                    std::string receivedMsg(buffer, bytesReceived);
+                    std::string unframedMessage = unframeMessage(receivedMsg);
+                    logMessage("INFO", "Received STATUSRESP from " + server.groupID + ": " + unframedMessage);
+
+                    // Process STATUSRESP
+                    processStatusResponse(unframedMessage);
+                } else {
+                    logMessage("ERROR", "No response received from " + server.groupID);
+                }
+            } else {
+                logMessage("ERROR", "Failed to send STATUSREQ to " + server.groupID);
+            }
+        } else {
+            logMessage("ERROR", "Invalid socket for server " + server.groupID + ". Skipping STATUSREQ.");
+        }
+    }
+}
+
+// Helper function to check if the groupID belongs to a server in our server list
+bool isServerInOurList(const std::string& groupID) {
+    for (const auto& server : serverList) {
+        if (server.groupID == groupID) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Store messages locally
+void storeMessagesLocally(const std::string& groupID, int msgCount) {
+    // This is where messages are stored locally (for us or other servers)
+    logMessage("INFO", "Requesting " + std::to_string(msgCount) + " messages from GroupID: " + groupID);
+    std::string getMsgsCommand = frameMessage("GETMSGS," + groupID);
+    for (const auto& server : connectedServers) {
+        if (server.second.groupID == groupID) {
+            send(server.second.sockfd, getMsgsCommand.c_str(), getMsgsCommand.length(), 0);
+            logMessage("INFO", "Requesting messages from server with GroupID: " + groupID);
+        }
+    }
+}
+
+// Process STATUSRESP to decide if we need to send GETMSGS
+void processStatusResponse(const std::string& statusResp) {
+    std::vector<std::string> tokens = splitString(statusResp, ',');
+
+    // Validate that the message is well-formed
+    if (tokens.size() < 3 || tokens[0] != "STATUSRESP") {
+        logMessage("ERROR", "Invalid STATUSRESP format: " + statusResp);
+        return;
+    }
+
+    // Ensure even number of tokens after "STATUSRESP" (i.e., groupID, msgCount pairs)
+    if (tokens.size() % 2 != 1) {
+        logMessage("ERROR", "Malformed STATUSRESP message: " + statusResp);
+        return;
+    }
+
+    for (size_t i = 1; i < tokens.size(); i += 2) {
+        std::string groupID = tokens[i];
+        int msgCount;
+
+        try {
+            msgCount = std::stoi(tokens[i + 1]);
+        } catch (const std::exception& e) {
+            logMessage("ERROR", "Invalid message count in STATUSRESP: " + tokens[i + 1]);
+            return;
+        }
+
+        if (msgCount > 0) {
+            // Case 1: If the message is for us (currentServerName), store it locally
+            if (groupID == currentServerName) {
+                logMessage("INFO", "Storing " + std::to_string(msgCount) + " messages for our server (GroupID: " + groupID + ")");
+                storeMessagesLocally(groupID, msgCount);
+            } 
+            // Case 2: If the message is for a server in our serverList, store it locally
+            else if (isServerInOurList(groupID)) {
+                logMessage("INFO", "Storing " + std::to_string(msgCount) + " messages for connected server (GroupID: " + groupID + ")");
+                storeMessagesLocally(groupID, msgCount);
+            } 
+            // Case 3: If the message is for an unknown server, ignore it
+            else {
+                logMessage("INFO", "Ignoring messages for unknown server (GroupID: " + groupID + ")");
+            }
         }
     }
 }
@@ -929,6 +1156,7 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
 
             ServerInfo newServer = {groupID, std::string(clientIP), ntohs(addr.sin_port), clientSocket, time(0)};
             serverList.push_back(newServer);
+            connectedServers[clientSocket] = newServer;
             logMessage("INFO", "Added new server to the list: " + groupID);
         }
     
@@ -957,91 +1185,47 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
             return;
         }
 
-        // Store the message locally for the `toGroupID`
+        // Store the message locally for the destination GroupID
         storedMessages[toGroupID].push_back("From " + fromGroupID + ": " + messageContent);
         logMessage("INFO", "Message stored locally for GroupID: " + toGroupID);
 
     } else if (cmd.compare("GETMSGS") == 0 && tokens.size() == 2) {
-
-
-
         std::string groupID = trim(tokens[1]);
-        logMessage("INFO", "Received GETMSGS command for GroupID: " + groupID);
 
-        // Check local storage for messages
+        // Debugging: Print out all currently stored messages before processing
+        logMessage("DEBUG", "Current stored messages before processing GETMSGS:");
+        for (const auto& entry : storedMessages) {
+            logMessage("DEBUG", "GroupID: " + entry.first + ", Messages: " + std::to_string(entry.second.size()));
+            for (const auto& msg : entry.second) {
+                logMessage("DEBUG", "Message: " + msg);
+            }
+        }
+
+        logMessage("INFO", "Processing GETMSGS for GroupID: " + groupID);
+
+        // Send the locally stored messages if they exist
         if (storedMessages.find(groupID) != storedMessages.end() && !storedMessages[groupID].empty()) {
-            logMessage("INFO", "Found local messages for GroupID: " + groupID);
+            logMessage("INFO", "Found " + std::to_string(storedMessages[groupID].size()) + " messages for GroupID: " + groupID);
 
-            // Send local messages to the client
+            // Construct the MESSAGES response
             std::string response = "MESSAGES," + groupID;
             for (const auto& message : storedMessages[groupID]) {
                 response += "," + message;
             }
 
-            // Frame the response and send it
+            // Frame and send the response
             std::string framedResponse = frameMessage(response);
-            logMessage("DEBUG", "Framed local message to send: " + framedResponse);
             send(clientSocket, framedResponse.c_str(), framedResponse.length(), 0);
+            logMessage("INFO", "Sent and cleared local messages for GroupID: " + groupID);
 
             // Clear the messages after sending
             storedMessages[groupID].clear();
-            logMessage("INFO", "Sent and cleared local messages for GroupID: " + groupID);
-        } 
-        else if (connectedServers.empty()) {
-            logMessage("ERROR", "No connected servers available to forward GETMSGS request for GroupID: " + groupID);
-
-            std::string errorMsg = "ERROR: No connected servers available to retrieve messages for GroupID: " + groupID;
-            std::string framedError = frameMessage(errorMsg);
-            logMessage("DEBUG", "Framed error message: " + framedError);
-            send(clientSocket, framedError.c_str(), framedError.length(), 0);
-        } 
-        else {
-            logMessage("INFO", "No local messages for GroupID: " + groupID + ". Forwarding GETMSGS to connected servers.");
-
-            // Frame and forward the GETMSGS request to all connected servers
-            std::string forwardMsg = frameMessage("GETMSGS," + groupID);
-            for (const auto& server : connectedServers) {
-                ssize_t result = send(server.second.sockfd, forwardMsg.c_str(), forwardMsg.length(), 0);
-                if (result < 0) {
-                    logMessage("ERROR", "Failed to send GETMSGS to server: " + server.second.groupID + " on socket " + std::to_string(server.second.sockfd));
-                } else {
-                    logMessage("INFO", "Forwarded GETMSGS command to server: " + server.second.groupID + " on socket " + std::to_string(server.second.sockfd));
-                }
-            }
-
-            // After forwarding, wait for the response and forward it to the original client
-            char buffer[MAX_BUFFER];
-            for (const auto& server : connectedServers) {
-                logMessage("DEBUG", "Waiting for response from server: " + server.second.groupID);
-                ssize_t bytesReceived = recv(server.second.sockfd, buffer, MAX_BUFFER, 0);
-                if (bytesReceived > 0) {
-                    std::string receivedMsg(buffer, bytesReceived);
-                    logMessage("DEBUG", "Received message from server: " + receivedMsg);
-
-                    std::string unframedMessage = unframeMessage(receivedMsg);
-
-                    // Check if the response is a MESSAGES response and forward it to the original client
-                    if (unframedMessage.rfind("MESSAGES", 0) == 0) {
-                        logMessage("INFO", "Forwarding received MESSAGES response from " + server.second.groupID + " to the original client");
-
-                        std::string framedMessages = frameMessage(unframedMessage);
-                        logMessage("DEBUG", "Framed MESSAGES response to send: " + framedMessages);
-                        send(clientSocket, framedMessages.c_str(), framedMessages.length(), 0);
-                    } else {
-                        logMessage("ERROR", "Received invalid or unexpected response from server: " + server.second.groupID);
-                    }
-                } else if (bytesReceived == 0) {
-                    logMessage("ERROR", "Server " + server.second.groupID + " closed the connection unexpectedly.");
-                } else {
-                    logMessage("ERROR", "Failed to receive response from server: " + server.second.groupID + ". Error: " + std::string(strerror(errno)));
-                }
-            }
+        } else {
+            logMessage("INFO", "No local messages for GroupID: " + groupID);
+            // Send response indicating no messages available
+            std::string noMessageResponse = frameMessage("MESSAGES," + groupID + ",NO_MESSAGES");
+            send(clientSocket, noMessageResponse.c_str(), noMessageResponse.length(), 0);
         }
-
-
-
-
-
     } else if (cmd.compare("STATUSREQ") == 0) {
         logMessage("INFO", "STATUSREQ received");
 
@@ -1091,6 +1275,21 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         // Log the last keep-alive timestamp
         connectedServers[clientSocket].lastKeepAlive = time(0);  // Update the timestamp
         logMessage("INFO", "Updated last KEEPALIVE timestamp for client " + clientGroupID);
+    } else if (cmd.compare("MESSAGES") == 0 && tokens.size() >= 3) {
+        std::string fromGroupID = tokens[1];
+        
+        // Rebuild the message content
+        std::string messageContent;
+        for (size_t i = 2; i < tokens.size(); ++i) {
+            messageContent += tokens[i];
+            if (i != tokens.size() - 1) {
+                messageContent += " ";  // Add space between words
+            }
+        }
+
+        // Store the message locally for this group
+        storedMessages[fromGroupID].push_back(messageContent);
+        logMessage("INFO", "Stored new message for GroupID: " + fromGroupID);
     } else {
         logMessage("ERROR", "Unknown command: " + cmd);
 
@@ -1214,6 +1413,14 @@ void startKeepAliveLoop() {
     }
 }
 
+// Start periodic STATUSREQ messages to all connected servers
+void startStatusReqLoop() {
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(60));  // Send STATUSREQ every 60 seconds
+        requestStatusFromServers();  // Send STATUSREQ to all connected servers
+    }
+}
+
 int main(int argc, char *argv[]) {
     // Ignore SIGPIPE to prevent crashes when writing to closed sockets
     signal(SIGPIPE, SIG_IGN);
@@ -1299,6 +1506,10 @@ int main(int argc, char *argv[]) {
     // Start the thread for periodic keep-alive messages
     std::thread keepAliveThread(startKeepAliveLoop);
     keepAliveThread.detach();  // Start the KEEPALIVE thread
+
+    // Start the thread for periodic STATUSREQ messages
+    std::thread statusReqThread(startStatusReqLoop);
+    statusReqThread.detach();  // Start the STATUSREQ thread
 
     // Main server loop
     serverLoop(listenSock);
