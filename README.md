@@ -36,17 +36,11 @@ This will generate two executable files:
 To start the server, use the following command:
 
 ```bash
-./tsamgroup1 <port> <servers_to_connect_to> <begining_port_for_connected_servers> <ending_port_for_connected_servers>
+./tsamgroup1 <groupnumber> <port> <servers_to_connect_to> <begining_port_for_connected_servers> <ending_port_for_connected_servers>
 ```
 Copy/paste cmd to talk to instruction servers
 ```bash
-./tsamgroup1 60000 130.208.246.249 5001 5005
-```
-
-Example:
-
-```bash
-./tsamgroup1 60000
+./tsamgroup1 1 60000 130.208.246.249 5001 5005
 ```
 
 ### Running the Client
@@ -60,7 +54,7 @@ To run the client and connect to the server:
 Example:
 
 ```bash
-./client 127.0.0.1 60000
+./client 89.160.229.150 60000
 ```
 
 ## Telnet for Manual Testing
