@@ -1,39 +1,3 @@
-// Compile: g++ server.cpp -o tsamgroup1 -pthread
-// Usage: ./tsamgroup1 60000 130.208.246.249 5001 5005
-
-// TODO: Byrja að tengjast fleiri serverum og double checka virkni á KEEPALIVE
-// TODO: Modify connectToServer to establish connections with at least 3 servers.
-// Loop through the server list and try to connect to each server until 
-// a minimum of 3 connections are established.
-// Ensure to retry if a connection fails and update the connectedServers map.
-// TODO: In the main server loop, ensure that KEEPALIVE messages are sent periodically 
-// to all connected servers.
-// Check if the last KEEPALIVE was received within a reasonable time (e.g., 60 seconds). 
-// If not, remove the server from the list of connected servers and log a warning.
-// TODO: Implement message routing in the SENDMSG command.
-// If the destination server for the message is not the current server, 
-// forward the message to the appropriate server in the connectedServers list.
-// If the destination server is unavailable, store the message and forward it later.
-// TODO: Modify the SENDMSG command handler to store messages for disconnected servers.
-// When the destination server reconnects, check storedMessages and forward any 
-// queued messages.
-// Ensure that GETMSGS can retrieve stored messages when requested by the destination server.
-// TODO: Implement the LISTSERVERS command in handleClientCommand function.
-// When a client sends LISTSERVERS, respond with a list of currently connected servers, 
-// including their GroupID, IP address, and port.
-// TODO: Add logic to retry failed server connections periodically.
-// If a server disconnects, try to reconnect after a set interval.
-// Ensure the connection attempt does not block the main server loop.
-// TODO: Implement the STATUSREQ command to send a request to other servers 
-// asking for their status, including message counts.
-// Respond with a STATUSRESP showing the number of messages queued or forwarded 
-// for each connected server.
-// TODO: Implement server failure detection.
-// If a server does not respond to multiple KEEPALIVE messages or other commands,
-// mark the server as disconnected and remove it from connectedServers.
-
-
-
 #include <iostream>
 #include <vector>
 #include <map>
@@ -63,12 +27,13 @@
 #include <mutex>
 #include <csignal>
 #include <signal.h>
+#include <iomanip>
 
 int listenSock; 
 
 #define SOH 0x01  // Start of Header
 #define EOT 0x04  // End of Transmission
-#define DLE 0x10  // Data Link Escape
+#define ESCAPE 0x10  // Data Link Escape
 #define MAX_BUFFER 5000
 #define BACKLOG 5  // Maximum number of queued connections
 #define TIMEOUT_SEC 5  // 5-second timeout for waiting for server response
@@ -94,8 +59,8 @@ std::map<int, std::string> clientNames; // For client connections
 std::string connectedServersIPs;
 
 // Define the current server's information
-std::string currentServerName = "A5_1";
-std::string currentServerIP;  // The current server's public IP address (Rasp PI behind Fortigate using port mapping)
+std::string currentServerName;  // Will be initialized in main() from the command-line argument
+std::string currentServerIP;  // The current server's public IP address
 int port;  // The port this server is listening on
 
 std::ofstream logFile; // Setup the log file
@@ -108,6 +73,16 @@ fd_set openSockets;  // File descriptor set for open sockets
 void rotateLogFile();
 std::string unframeMessage(const std::string &msg);
 std::string frameMessage(const std::string &msg);
+void processServersResponse(const std::string &response);
+void sendServersList(int sockfd);
+
+std::string stringToHex(const std::string& input) {
+    std::stringstream hexStream;
+    for (unsigned char c : input) {
+        hexStream << std::hex << std::setw(2) << std::setfill('0') << (int)c << " ";
+    }
+    return hexStream.str();
+}
 
 // Logs messages to a file
 void logMessage(const std::string& logType, const std::string& message) {
@@ -139,24 +114,32 @@ ServerInfo chooseRandomServer() {
 bool isPortAvailable(int port) {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
+        logMessage("ERROR", "Error creating socket during port check");
         return false;
     }
+
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(port);
     
+    // Try to bind the socket to the given port
     int result = bind(sockfd, (struct sockaddr*)&addr, sizeof(addr));
-    close(sockfd);
+    close(sockfd);  // Close the socket after checking
+
+    // Return true if bind was successful, meaning the port is available
     return result == 0;
 }
 
-int findFreePort() {
-    int port = 4000;  
+int findFreePort(int startPort) {
+    int port = startPort;
+    
     while (!isPortAvailable(port)) {
-        port++;
+        logMessage("WARNING", "Port " + std::to_string(port) + " is not available. Trying next port...");
+        port++;  // Increment port number if not available
     }
-    return port;
+
+    return port;  // Return the first available port
 }
 
 std::string getPublicIP() {
@@ -172,23 +155,6 @@ std::string getPublicIP() {
         result += buffer.data();
     }
     pclose(pipe); 
-    return result;
-}
-
-
-std::string pingServer(const std::string &ip) {
-    std::string command = "ping -c 1 " + ip;
-    std::array<char, 128> buffer;
-    std::string result;
-
-    FILE* pipe = popen(command.c_str(), "r"); 
-    if (!pipe) throw std::runtime_error("popen() failed!"); 
-
-    // Read the output of the command
-    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
-        result += buffer.data();
-    }
-    pclose(pipe);
     return result;
 }
 
@@ -244,9 +210,7 @@ int tryToConnect(ServerInfo server) {
         return -1;
     }
 
-    // Delay to ensure the port is fully registered
-    logMessage("DEBUG", "Introducing delay to ensure proper port registration");
-    sleep(1);
+    sleep(1); // Delay to ensure the port is fully registered
 
     // Set up the remote server address
     struct sockaddr_in serverAddr;
@@ -293,7 +257,7 @@ int tryToConnectUsingBoundSocket(int sockfd, const std::string& remoteIP, int re
     return 0; // Return success
 }
 
-std::string receiveHELOResponse(int sockfd);
+std::string receiveHELOResponseWithRetry(int sockfd, int retries);
 
 // Attempt to connect to one of the instructor servers from the list
 int connectToServer() {
@@ -314,9 +278,9 @@ int connectToServer() {
                 sendHELOCommand(sockfd);
 
                 // Receive SERVERS response and update server list
-                receiveHELOResponse(sockfd);
+                receiveHELOResponseWithRetry(sockfd, 3);
 
-                std::cout << "Added instructor server to connected servers: " << server.ipAddress << ":" << server.port << std::endl;
+                std::cout << "Added instructor server to connected servers: " << server.ipAddress << ":" << std::to_string(server.port) << std::endl;
                 return sockfd;  // Successful connection
             } else {
                 std::cout << "Failed to connect to " << server.ipAddress << " on port " << server.port << std::endl;
@@ -329,7 +293,7 @@ int connectToServer() {
     return -1;
 }
 
-// Send the "HELO,A5_1" command to a random server
+// Send the "HELO,A5_x" command to a random server
 void sendHELOCommand(int sockfd) {
     std::string heloCommand = "HELO," + currentServerName;  // Send the current server's group ID
     std::string framedCommand = frameMessage(heloCommand);
@@ -342,54 +306,11 @@ void sendHELOCommand(int sockfd) {
     } else {
         logMessage("INFO", "Local port before sending HELO: " + std::to_string(ntohs(localAddr.sin_port)));
     }
-
-    logMessage("DEBUG", "Framed HELO command: " + framedCommand + " on socket " + std::to_string(sockfd));
-
     ssize_t result = send(sockfd, framedCommand.c_str(), framedCommand.length(), 0);
     if (result >= 0) {
         logMessage("INFO", "Sent HELO command: " + heloCommand + " on socket " + std::to_string(sockfd));
     } else {
         logMessage("ERROR", "Failed to send HELO command on socket " + std::to_string(sockfd));
-    }
-}
-
-// Send the "HELO,A5_1" command to a random server with retry logic
-void sendHELOCommandWithRetry(int sockfd) {
-    std::string heloCommand = "HELO," + currentServerName;  // Send the current server's group ID
-    std::string framedCommand = frameMessage(heloCommand);
-    
-    int maxRetries = 3;  // Maximum number of retries for the HELO command
-    int retryCount = 0;
-    bool success = false;
-
-    while (retryCount < maxRetries && !success) {
-        logMessage("DEBUG", "Framed HELO command: " + framedCommand + " on socket " + std::to_string(sockfd));
-        
-        ssize_t result = send(sockfd, framedCommand.c_str(), framedCommand.length(), 0);
-        if (result >= 0) {
-            logMessage("INFO", "Sent HELO command: " + heloCommand + " on socket " + std::to_string(sockfd));
-
-            // Wait for SERVERS response
-            std::string response = receiveHELOResponse(sockfd);
-            if (!response.empty()) {
-                logMessage("INFO", "Received valid response after HELO command on retry " + std::to_string(retryCount + 1));
-                success = true;
-            } else {
-                logMessage("WARNING", "No valid SERVERS response after HELO command on retry " + std::to_string(retryCount + 1));
-                retryCount++;
-            }
-        } else {
-            logMessage("ERROR", "Failed to send HELO command on socket " + std::to_string(sockfd) + ". Retrying...");
-            retryCount++;
-        }
-
-        if (!success) {
-            std::this_thread::sleep_for(std::chrono::seconds(2));  // Wait before retrying
-        }
-    }
-
-    if (!success) {
-        logMessage("ERROR", "HELO command failed after " + std::to_string(maxRetries) + " retries.");
     }
 }
 
@@ -405,85 +326,157 @@ std::string trim(const std::string &str) {
     return str.substr(first, (last - first + 1));
 }
 
-// Exports the server names from helo commands
-std::string receiveHELOResponse(int sockfd) {
+// Utility function to validate IP addresses
+bool isValidIP(const std::string& ip) {
+    struct sockaddr_in sa;
+    return inet_pton(AF_INET, ip.c_str(), &(sa.sin_addr)) != 0;
+}
+
+// Helper function to split and handle multiple commands in a received message
+std::vector<std::string> extractCommands(const std::string &message) {
+    std::vector<std::string> commands;
+    size_t pos = 0, found;
+    while((found = message.find("SERVERS,", pos)) != std::string::npos) {
+        // Extracting the part before SERVERS and handling it separately
+        if (found > pos) {
+            commands.push_back(message.substr(pos, found - pos));
+        }
+        pos = found;
+        found = message.find(EOT, pos);  // Look for the EOT character to finish this command
+        if (found != std::string::npos) {
+            commands.push_back(message.substr(pos, found - pos + 1));  // Include EOT
+            pos = found + 1;
+        } else {
+            break;  // No more complete commands found
+        }
+    }
+    if (pos < message.size()) {
+        commands.push_back(message.substr(pos));  // Push remaining part if any
+    }
+    return commands;
+}
+
+// Helper function to split and extract multiple commands based on SOH and EOT
+std::vector<std::string> extractFramedCommands(const std::string &message) {
+    std::vector<std::string> commands;
+    size_t start = 0;
+
+    while (start < message.size()) {
+        // Find the SOH (0x01) and EOT (0x04) positions
+        size_t sohPos = message.find(SOH, start);
+        size_t eotPos = message.find(EOT, sohPos);
+
+        if (sohPos != std::string::npos && eotPos != std::string::npos) {
+            // Extract the message between SOH and EOT
+            std::string framedMessage = message.substr(sohPos + 1, eotPos - sohPos - 1);
+            commands.push_back(framedMessage);
+            start = eotPos + 1;  // Move to the next possible framed message
+        } else {
+            break;  // No more SOH/EOT pairs found
+        }
+    }
+
+    return commands;
+}
+
+// Helper function to process unframed messages (e.g., "HELO,Instr_1" or "SERVERS,...")
+void processUnframedCommand(int clientSocket, const std::string &unframedCommand) {
+    if (unframedCommand.find("HELO") == 0) {
+        // Handle HELO command
+        logMessage("INFO", "HELO command received: " + unframedCommand);
+        // Process the HELO message here (for example, save the group name)
+    } 
+    else if (unframedCommand.find("SERVERS") == 0) {
+        logMessage("INFO", "SERVERS command received: " + unframedCommand);
+        processServersResponse(unframedCommand);  // Process the received servers list
+        sendServersList(clientSocket);  // Send the current server list to the client
+        return;  // Exit after handling the SERVERS command
+    } 
+    else {
+        logMessage("ERROR", "Unknown or invalid command received: " + unframedCommand);
+    }
+}
+
+void handleClientCommand(int clientSocket, const std::string &command, const std::string &clientIP, fd_set &openSockets);
+
+// Main function to process received message on a socket
+void processReceivedMessage(int sockfd, const std::string &message) {
+    // Get client IP for further command handling
+    struct sockaddr_in addr;
+    socklen_t addr_size = sizeof(struct sockaddr_in);
+    getpeername(sockfd, (struct sockaddr *)&addr, &addr_size);
+    char clientIP[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &(addr.sin_addr), clientIP, INET_ADDRSTRLEN);
+
+    // Check if the message starts with SOH and ends with EOT
+    if (message.front() == SOH && message.back() == EOT) {
+                // Extract framed commands and unframe each one
+        std::vector<std::string> framedCommands = extractFramedCommands(message);
+        for (const auto &framedCommand : framedCommands) {
+            std::string unframedCommand = unframeMessage(framedCommand);
+
+            // Process the unframed command
+            handleClientCommand(sockfd, unframedCommand, clientIP, openSockets);
+        }
+    } else {
+        // The message is not framed, process it as it is
+        handleClientCommand(sockfd, message, clientIP, openSockets);
+    }
+}
+
+// Adjusting the receiving function to handle the case where multiple commands are sent together
+std::string receiveHELOResponseWithRetry(int sockfd, int retries = 3) {
     char buffer[MAX_BUFFER];
     memset(buffer, 0, MAX_BUFFER);
+    int attempts = 0;
+    bool success = false;
 
-    fd_set readfds;
-    struct timeval timeout;
+    while (attempts < retries && !success) {
+        fd_set readfds;
+        struct timeval timeout;
 
-    FD_ZERO(&readfds);
-    FD_SET(sockfd, &readfds);
+        FD_ZERO(&readfds);
+        FD_SET(sockfd, &readfds);
 
-    timeout.tv_sec = TIMEOUT_SEC;
-    timeout.tv_usec = 0;
+        timeout.tv_sec = TIMEOUT_SEC;
+        timeout.tv_usec = 0;
 
-    logMessage("DEBUG", "Waiting for HELO or SERVERS response on socket " + std::to_string(sockfd));
+        int activity = select(sockfd + 1, &readfds, NULL, NULL, &timeout);
+        if (activity > 0 && FD_ISSET(sockfd, &readfds)) {
+            int bytesReceived = recvWithLogging(sockfd, buffer, MAX_BUFFER);
+            if (bytesReceived > 0) {
+                std::string response(buffer, bytesReceived);
+                logMessage("INFO", "Received framed response: " + response + " on socket " + std::to_string(sockfd));
 
-    int activity = select(sockfd + 1, &readfds, NULL, NULL, &timeout);
-    if (activity > 0 && FD_ISSET(sockfd, &readfds)) {
-        logMessage("DEBUG", "Receiving response on socket " + std::to_string(sockfd));
-        int bytesReceived = recvWithLogging(sockfd, buffer, MAX_BUFFER);
-        if (bytesReceived > 0) {
-            std::string response(buffer, bytesReceived);
-            logMessage("INFO", "Received framed response: " + response + " on socket " + std::to_string(sockfd));
+                // Process the received message to handle multiple commands
+                processReceivedMessage(sockfd, response);
 
-            // Unframe the message (strip SOH and EOT)
-            std::string unframedResponse = unframeMessage(response);
-            logMessage("DEBUG", "Unframed response: " + unframedResponse);
-
-            // Check if the response starts with "SERVERS,"
-            if (unframedResponse.rfind("SERVERS", 0) == 0) {
-                logMessage("DEBUG", "Valid SERVERS prefix found in response: " + unframedResponse);
-
-                // Remove "SERVERS," from the response
-                std::string serversList = unframedResponse.substr(8);
-
-                // Split the servers by ';'
-                std::vector<std::string> servers = splitString(serversList, ';');
-                for (const auto& serverInfo : servers) {
-                    // Split the serverInfo by ','
-                    std::vector<std::string> fields = splitString(serverInfo, ',');
-                    if (fields.size() == 3) {
-                        std::string groupID = fields[0];
-                        std::string ipAddress = fields[1];
-                        int serverPort = std::stoi(fields[2]);
-                        logMessage("INFO", "Adding server from SERVERS response: " + groupID + " " + ipAddress + ":" + std::to_string(serverPort));
-
-                        ServerInfo newServer = {groupID, ipAddress, serverPort, -1, time(0)};
-                        
-                        // Try to connect to the server and add to connectedServers
-                        int sockfd = tryToConnect(newServer);
-                        if (sockfd >= 0) {
-                            newServer.sockfd = sockfd;
-                            connectedServers[sockfd] = newServer;  // Add to connected servers map
-                            logMessage("INFO", "Connected to server and added to connectedServers: " + newServer.groupID);
-                        } else {
-                            logMessage("ERROR", "Failed to connect to server: " + newServer.groupID);
-                        }
-
-                        serverList.push_back(newServer);  // Add to serverList
-                    } else {
-                        logMessage("ERROR", "Invalid server info format in SERVERS response: " + serverInfo);
-                    }
+                // Check if the response contains a SERVERS command
+                if (response.find("SERVERS") != std::string::npos) {
+                    logMessage("INFO", "Successfully received SERVERS response. Stopping retries.");
+                    success = true;  // Mark success to exit retry loop
+                } else {
+                    logMessage("WARNING", "No valid SERVERS response in this attempt. Retrying...");
                 }
-                return "";
             } else {
-                logMessage("ERROR", "Response doesn't start with 'SERVERS,' : " + unframedResponse);
-                return "";
+                logMessage("ERROR", "No data received in response.");
             }
+        } else if (activity == 0) {
+            logMessage("WARNING", "No response from server after HELO or SERVERS, retrying...");
         } else {
-            logMessage("ERROR", "No data received in response, bytes received: " + std::to_string(bytesReceived));
-            return "";
+            logMessage("ERROR", "Error in select() during response waiting.");
         }
-    } else if (activity == 0) {
-        logMessage("WARNING", "No response from server after HELO or SERVERS, timeout reached on socket " + std::to_string(sockfd));
-        return "";  // Timeout reached
-    } else {
-        logMessage("ERROR", "Error in select() during response waiting.");
-        return "";
+
+        attempts++;
+        if (attempts < retries && !success) {
+            logMessage("INFO", "Retrying to get SERVERS response. Attempt " + std::to_string(attempts + 1) + " of " + std::to_string(retries));
+            sendHELOCommand(sockfd);  // Resend HELO command to request SERVERS response again
+        } else if (!success) {
+            logMessage("ERROR", "Max retries reached. Failed to get valid SERVERS response.");
+        }
     }
+    
+    return success ? "SERVERS" : "";  // Return success if SERVERS was received
 }
 
 // Receive and print any output from the server
@@ -564,6 +557,7 @@ ssize_t sendWithLogging(int sockfd, const std::string &message) {
         logMessage("ERROR", "Failed to send message on socket " + std::to_string(sockfd));
     } else {
         logMessage("INFO", "Sent message on socket " + std::to_string(sockfd) + ": " + message);
+        logMessage("DEBUG", "Hex dump of sent message: " + stringToHex(message));
     }
     return bytesSent;
 }
@@ -574,71 +568,31 @@ ssize_t recvWithLogging(int sockfd, char *buffer, size_t bufferSize) {
     if (bytesReceived < 0) {
         logMessage("ERROR", "Failed to receive message on socket " + std::to_string(sockfd));
     } else {
+        // Log raw data in both hex and string form
         std::string receivedMsg(buffer, bytesReceived);
-        logMessage("DEBUG", "Raw data received on socket " + std::to_string(sockfd) + ": " + receivedMsg);
-
-        // Process the message (for GETMSGS and STATUSRESP)
-        std::string unframedMessage = unframeMessage(receivedMsg);
-
-        // Example for GETMSGS response
-        if (unframedMessage.rfind("MESSAGES,", 0) == 0) {
-            logMessage("INFO", "Messages received: " + unframedMessage);
+        std::stringstream hexDump;
+        hexDump << "Hex dump of raw data on socket " + std::to_string(sockfd) + ": ";
+        for (int i = 0; i < bytesReceived; ++i) {
+            hexDump << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned char)buffer[i] << " ";
         }
-        // Example for STATUSRESP response
-        else if (unframedMessage.rfind("STATUSRESP", 0) == 0) {
-            logMessage("INFO", "Status response received: " + unframedMessage);
-        }
-
         logMessage("INFO", "Bytes received on socket " + std::to_string(sockfd) + ": " + std::to_string(bytesReceived));
+        logMessage("DEBUG", "Hex dump of received message: " + stringToHex(receivedMsg));
     }
     return bytesReceived;
-}
-
-// Ping the server and get the server name
-std::string pingServerAndGetName(const std::string &ipAddress) {
-    std::string pingResult = pingServer(ipAddress);
-    if (pingResult.find("1 packets transmitted, 1 received") != std::string::npos) {
-        // Ping succeeded, try to get the hostname
-        struct sockaddr_in sa;
-        char host[1024];
-
-        sa.sin_family = AF_INET;
-        inet_pton(AF_INET, ipAddress.c_str(), &sa.sin_addr);
-
-        int result = getnameinfo((struct sockaddr*)&sa, sizeof(sa), host, sizeof(host), NULL, 0, 0);
-        if (result == 0) {
-            // Successfully resolved the name
-            return std::string(host);
-        } else {
-            // Could not resolve hostname, return IP as fallback
-            return ipAddress;
-        }
-    } else {
-        // Ping failed, mark server as unreachable
-        return "UNREACHABLE_" + ipAddress;
-    }
 }
 
 // Update the populateServerList to fetch server names using ping
 void populateServerList(const std::string &ipAddress, int portStart, int portEnd) {
     serverList.clear();
     int groupNumber = 1;
-
-    logMessage("DEBUG", "Starting to populate server list from " + ipAddress + " for port range " + std::to_string(portStart) + " to " + std::to_string(portEnd));
-
     for (int port = portStart; port <= portEnd; ++port) {
-        logMessage("DEBUG", "Attempting to connect to server on port " + std::to_string(port));
-
         ServerInfo newServer = {"Group_" + std::to_string(groupNumber), ipAddress, port, -1, time(0)};
         int sockfd = tryToConnect(newServer);
         if (sockfd >= 0) {
-            logMessage("DEBUG", "Connection to server on port " + std::to_string(port) + " successful. Sending HELO.");
-
             sendHELOCommand(sockfd);
-            std::string responseName = receiveHELOResponse(sockfd);
+            std::string responseName = receiveHELOResponseWithRetry(sockfd, 3);
 
             if (!responseName.empty()) {
-                logMessage("DEBUG", "Received valid server name from HELO response: " + responseName);
                 newServer.groupID = responseName;
             } else {
                 responseName = "server_" + std::to_string(port);
@@ -656,8 +610,6 @@ void populateServerList(const std::string &ipAddress, int portStart, int portEnd
 
         ++groupNumber;
     }
-
-    logMessage("DEBUG", "Finished populating server list.");
 }
 
 // Function to check if an IP is blocked
@@ -683,37 +635,51 @@ void blockIP(const std::string &ip) {
     logMessage("INFO", "Blocked IP: " + ip + " for 30 minutes.");
 }
 
-// Helper function to frame messages with SOH and EOT, with byte-stuffing
+// Helper function to frame messages with SOH and EOT with byte stuffing (ESCAPE handling)
 std::string frameMessage(const std::string &msg) {
-    std::string stuffedMsg;
+    std::string framedMsg;
+    framedMsg += SOH;  // Start with SOH
+    
+    // Byte stuffing for SOH and EOT only
     for (char c : msg) {
-        if (c == SOH || c == EOT || c == DLE) {
-            stuffedMsg += DLE;  // Add escape character
+        if (c == SOH || c == EOT) {
+            framedMsg += ESCAPE;  // Insert ESCAPE before SOH or EOT
         }
-        stuffedMsg += c;  // Add the original character
+        framedMsg += c;  // Append the actual character
     }
-    return std::string(1, SOH) + stuffedMsg + std::string(1, EOT);
+    
+    framedMsg += EOT;  // End with EOT
+    return framedMsg;
 }
 
-// Helper function to unframe messages (remove SOH and EOT), and un-stuff bytes
+// Helper function to unframe messages (remove SOH and EOT) and handle byte unstuffing
 std::string unframeMessage(const std::string &msg) {
-    if (msg[0] == SOH && msg[msg.size() - 1] == EOT) {
-        std::string data = msg.substr(1, msg.size() - 2);  // Strip SOH and EOT
-        std::string unstuffedMsg;
-        bool escapeNext = false;
-        for (char c : data) {
-            if (escapeNext) {
-                unstuffedMsg += c;
-                escapeNext = false;
-            } else if (c == DLE) {
-                escapeNext = true;
-            } else {
-                unstuffedMsg += c;
-            }
-        }
-        return unstuffedMsg;
+    // Check if the message starts with SOH and ends with EOT
+    if (msg.empty() || msg.front() != SOH || msg.back() != EOT) {
+        logMessage("ERROR", "Invalid framing in message: [" + msg + "]");
+        return msg;  // Return the original message since it's already unframed
     }
-    return msg;
+
+    std::string data = msg.substr(1, msg.size() - 2);  // Remove SOH and EOT
+    std::string unframedMsg;
+    bool escapeNext = false;
+
+    for (char c : data) {
+        if (escapeNext) {
+            unframedMsg += c;  // Append escaped character
+            escapeNext = false;
+        } else if (c == ESCAPE) {
+            escapeNext = true;  // Flag the next character to be escaped
+        } else {
+            unframedMsg += c;  // Normal character
+        }
+    }
+
+    if (escapeNext) {
+        logMessage("ERROR", "Incomplete escape sequence in message: " + msg);
+        return "";
+    }
+    return unframedMsg;
 }
 
 // Helper function to split string by delimiter
@@ -732,20 +698,26 @@ void sendServersList(int sockfd) {
     std::stringstream response;
     response << "SERVERS";
 
-    // Add the current server's information to the response (this server)
-    response << "," << currentServerName << "," << currentServerIP << "," << port;
+    // Ensure current server's IP and port are advertised correctly
+    response << "," << currentServerName << "," << currentServerIP << "," << std::to_string(port);
 
     // Iterate over the serverList and append other connected servers' details
     for (const auto& server : serverList) {
+        logMessage("DEBUG", "Adding server to SERVERS list: " +
+                   server.groupID + "," + server.ipAddress + "," + std::to_string(server.port));
         response << ";" << server.groupID << "," << server.ipAddress << "," << std::to_string(server.port);
     }
 
-    // Frame and send the response
+    // Frame the message with SOH and EOT
     std::string framedResponse = frameMessage(response.str());
-    send(sockfd, framedResponse.c_str(), framedResponse.length(), 0);
 
-    // Log the SERVERS response for debugging
-    logMessage("INFO", "Sent SERVERS list to socket: " + std::to_string(sockfd) + " - " + framedResponse);
+    // Send the framed response to the socket
+    ssize_t result = send(sockfd, framedResponse.c_str(), framedResponse.length(), 0);
+    if (result >= 0) {
+        logMessage("INFO", "Successfully sent SERVERS list to socket: " + std::to_string(sockfd) + " - " + framedResponse);
+    } else {
+        logMessage("ERROR", "Failed to send SERVERS list to socket: " + std::to_string(sockfd) + " - Error: " + strerror(errno));
+    }
 }
 
 void monitorKeepAlive() {
@@ -753,10 +725,6 @@ void monitorKeepAlive() {
 
     for (auto it = connectedServers.begin(); it != connectedServers.end(); ) {
         double timeSinceLastKeepAlive = difftime(currentTime, it->second.lastKeepAlive);
-
-        logMessage("DEBUG", "Checking KEEPALIVE for server: " + it->second.ipAddress + 
-                   ". Time since last KEEPALIVE: " + std::to_string(timeSinceLastKeepAlive) + " seconds.");
-
         if (timeSinceLastKeepAlive > 120) {  // Timeout window for inactivity
             logMessage("WARNING", "No KEEPALIVE from server " + it->second.ipAddress +
                        " in the last " + std::to_string(timeSinceLastKeepAlive) + " seconds. Closing connection.");
@@ -815,6 +783,45 @@ void resetBlocklist() {
     logMessage("INFO", "Blocklist has been cleared.");
 }
 
+// Process the SERVERS response
+void processServersResponse(const std::string &response) {
+    std::vector<std::string> serverEntries = splitString(response, ';'); // Split by semicolon
+
+    // Clear the existing server list before populating new entries
+    serverList.clear();
+
+    for (const auto &entry : serverEntries) {
+        std::vector<std::string> tokens = splitString(entry, ','); // Split by comma
+        if (tokens.size() == 3) {  // Expecting GroupID, IP, and Port
+            std::string groupID = trim(tokens[0]);
+            std::string ipAddress = trim(tokens[1]);
+            int port = std::stoi(trim(tokens[2]));  // Convert port to integer
+
+            // Check for valid IP and port
+            if (isValidIP(ipAddress) && port > 0) {
+                ServerInfo serverInfo = {groupID, ipAddress, port, -1, time(0)}; // Default sockfd to -1
+                serverList.push_back(serverInfo);  // Add to the server list
+            } else {
+                logMessage("ERROR", "Invalid server entry: " + entry + " (Invalid IP or port)");
+            }
+        } else {
+            logMessage("ERROR", "Malformed server entry: " + entry);
+        }
+    }
+}
+
+std::set<std::string> blacklist; // Stores group IDs or IP addresses of blacklisted entities
+
+// Function to check if a server is blacklisted
+bool isBlacklisted(const std::string& groupID) {
+    return blacklist.find(groupID) != blacklist.end();
+}
+
+// Add to blacklist after detection
+void addToBlacklist(const std::string& groupID) {
+    blacklist.insert(groupID);
+    logMessage("INFO", "Added to blacklist: " + groupID);
+}
 
 void handleClientCommand(int clientSocket, const std::string &command, const std::string &clientIP, fd_set &openSockets) {
     // Trim the command before processing
@@ -829,6 +836,14 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         return;
     }
 
+    // Handle blacklisting: check if the server is blacklisted
+    if (isBlacklisted(clientIP)) {
+        logMessage("INFO", "Blacklisted IP attempted to connect: " + clientIP);
+        close(clientSocket);  // Close the connection immediately
+        FD_CLR(clientSocket, &openSockets);  // Remove the socket from the FD set
+        return;
+    }
+
     // Check for empty commands and respond with error
     if (trimmedCommand.empty()) {
         logMessage("ERROR", "Received empty command from socket: " + std::to_string(clientSocket));
@@ -836,11 +851,6 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         send(clientSocket, frameMessage(errorMsg).c_str(), frameMessage(errorMsg).length(), 0);
         return;
     }
-
-    // Log raw command for debugging
-    logMessage("DEBUG", "Raw command received: [" + command + "]");
-    logMessage("DEBUG", "Trimmed command for processing: [" + trimmedCommand + "]");
-
     // Split the command into tokens
     std::vector<std::string> tokens = splitString(trimmedCommand, ',');
     std::string cmd = tokens[0];
@@ -853,11 +863,40 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         return;
     }
 
-    if (cmd.compare("HELO") == 0 && tokens.size() == 2) {
-        std::string groupID = trim(tokens[1]);
+    // If command is invalid, increase failure count and block if threshold is reached
+    if (cmd != "HELO" && cmd != "SERVERS" && cmd != "SENDMSG" && cmd != "GETMSGS" && cmd != "STATUSREQ" && cmd != "KEEPALIVE") {
+        logMessage("ERROR", "Unknown command: " + cmd);
 
-        logMessage("DEBUG", "Processing HELO for socket: " + std::to_string(clientSocket) + ", groupID: " + groupID);
+        // Increment failure count for the client
+        failedCommandCount[clientIP]++;
+        if (failedCommandCount[clientIP] > 3) {  // Block after 3 failed commands
+            blockIP(clientIP);  // Block the IP
+            logMessage("WARNING", "Blocked IP due to too many invalid commands: " + clientIP);
+            std::string blockMsg = "ERROR: Too many invalid commands, you are blocked.";
+            send(clientSocket, frameMessage(blockMsg).c_str(), frameMessage(blockMsg).length(), 0);
+            close(clientSocket);
+            FD_CLR(clientSocket, &openSockets);
+            return;
+        }
 
+        // Send an error message back to the client
+        std::string errorMsg = "ERROR: Unknown command " + cmd;
+        std::string framedError = frameMessage(errorMsg);
+        send(clientSocket, framedError.c_str(), framedError.length(), 0);
+        return;
+    }
+
+    if (cmd.compare("HELO") == 0) {
+        // Enhanced HELO handling
+        std::string groupID;
+        
+        // Extract group ID or assign a fallback if missing
+        if (tokens.size() >= 2) {
+            groupID = trim(tokens[1]);
+        } else {
+            groupID = "A5_Unknown";  // Default groupID if none is provided
+            logMessage("WARNING", "Received HELO without group ID, assigning: " + groupID);
+        }
         // Send SERVERS response to the client
         sendServersList(clientSocket);
         
@@ -892,12 +931,11 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
             serverList.push_back(newServer);
             logMessage("INFO", "Added new server to the list: " + groupID);
         }
-
-        // Log the current server list for debugging
-        logMessage("DEBUG", "Current server list after HELO processing:");
-        for (const auto &server : serverList) {
-            logMessage("DEBUG", "Server in list: GroupID: " + server.groupID + ", IP: " + server.ipAddress + ", Port: " + std::to_string(server.port));
-        }
+    
+    } else if (cmd.compare("SERVERS") == 0) {
+        logMessage("INFO", "SERVERS command received in handleclientcommands: " + trimmedCommand);
+        sendServersList(clientSocket);  // This function sends the current server list to the client
+        return;  // Exit to avoid executing further commands    
 
     } else if (cmd.compare("SENDMSG") == 0 && tokens.size() >= 4) {
         std::string toGroupID = trim(tokens[1]);
@@ -920,17 +958,13 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         }
 
         // Store the message locally for the `toGroupID`
-        logMessage("DEBUG", "Storing message for GroupID: " + toGroupID + " from " + fromGroupID + ": " + messageContent);
         storedMessages[toGroupID].push_back("From " + fromGroupID + ": " + messageContent);
         logMessage("INFO", "Message stored locally for GroupID: " + toGroupID);
 
-        // Log all stored messages for debugging
-        logMessage("DEBUG", "Stored messages for GroupID " + toGroupID + ": ");
-        for (const auto &msg : storedMessages[toGroupID]) {
-            logMessage("DEBUG", msg);
-        }
-
     } else if (cmd.compare("GETMSGS") == 0 && tokens.size() == 2) {
+
+
+
         std::string groupID = trim(tokens[1]);
         logMessage("INFO", "Received GETMSGS command for GroupID: " + groupID);
 
@@ -946,6 +980,7 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
 
             // Frame the response and send it
             std::string framedResponse = frameMessage(response);
+            logMessage("DEBUG", "Framed local message to send: " + framedResponse);
             send(clientSocket, framedResponse.c_str(), framedResponse.length(), 0);
 
             // Clear the messages after sending
@@ -957,6 +992,7 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
 
             std::string errorMsg = "ERROR: No connected servers available to retrieve messages for GroupID: " + groupID;
             std::string framedError = frameMessage(errorMsg);
+            logMessage("DEBUG", "Framed error message: " + framedError);
             send(clientSocket, framedError.c_str(), framedError.length(), 0);
         } 
         else {
@@ -967,12 +1003,44 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
             for (const auto& server : connectedServers) {
                 ssize_t result = send(server.second.sockfd, forwardMsg.c_str(), forwardMsg.length(), 0);
                 if (result < 0) {
-                    logMessage("ERROR", "Failed to send GETMSGS to server: " + server.second.groupID);
+                    logMessage("ERROR", "Failed to send GETMSGS to server: " + server.second.groupID + " on socket " + std::to_string(server.second.sockfd));
                 } else {
-                    logMessage("INFO", "Forwarded GETMSGS command to server: " + server.second.groupID);
+                    logMessage("INFO", "Forwarded GETMSGS command to server: " + server.second.groupID + " on socket " + std::to_string(server.second.sockfd));
+                }
+            }
+
+            // After forwarding, wait for the response and forward it to the original client
+            char buffer[MAX_BUFFER];
+            for (const auto& server : connectedServers) {
+                logMessage("DEBUG", "Waiting for response from server: " + server.second.groupID);
+                ssize_t bytesReceived = recv(server.second.sockfd, buffer, MAX_BUFFER, 0);
+                if (bytesReceived > 0) {
+                    std::string receivedMsg(buffer, bytesReceived);
+                    logMessage("DEBUG", "Received message from server: " + receivedMsg);
+
+                    std::string unframedMessage = unframeMessage(receivedMsg);
+
+                    // Check if the response is a MESSAGES response and forward it to the original client
+                    if (unframedMessage.rfind("MESSAGES", 0) == 0) {
+                        logMessage("INFO", "Forwarding received MESSAGES response from " + server.second.groupID + " to the original client");
+
+                        std::string framedMessages = frameMessage(unframedMessage);
+                        logMessage("DEBUG", "Framed MESSAGES response to send: " + framedMessages);
+                        send(clientSocket, framedMessages.c_str(), framedMessages.length(), 0);
+                    } else {
+                        logMessage("ERROR", "Received invalid or unexpected response from server: " + server.second.groupID);
+                    }
+                } else if (bytesReceived == 0) {
+                    logMessage("ERROR", "Server " + server.second.groupID + " closed the connection unexpectedly.");
+                } else {
+                    logMessage("ERROR", "Failed to receive response from server: " + server.second.groupID + ". Error: " + std::string(strerror(errno)));
                 }
             }
         }
+
+
+
+
 
     } else if (cmd.compare("STATUSREQ") == 0) {
         logMessage("INFO", "STATUSREQ received");
@@ -1011,8 +1079,6 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         logMessage("INFO", "Sent aggregated STATUSRESP to client: " + aggregatedStatus);
 
     } else if (cmd.compare("KEEPALIVE") == 0) {
-        logMessage("DEBUG", "Received KEEPALIVE on socket: " + std::to_string(clientSocket));
-
         if (clientNames.find(clientSocket) == clientNames.end()) {
             logMessage("ERROR", "No clientGroupID found for socket: " + std::to_string(clientSocket));
             return;
@@ -1033,19 +1099,6 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
         std::string framedError = frameMessage(errorMsg);
         send(clientSocket, framedError.c_str(), framedError.length(), 0);
     }
-}
-
-std::set<std::string> blacklist; // Stores group IDs or IP addresses of blacklisted entities
-
-// Function to check if a server is blacklisted
-bool isBlacklisted(const std::string& groupID) {
-    return blacklist.find(groupID) != blacklist.end();
-}
-
-// Add to blacklist after detection
-void addToBlacklist(const std::string& groupID) {
-    blacklist.insert(groupID);
-    logMessage("INFO", "Added to blacklist: " + groupID);
 }
 
 void removeExpiredBlocks() {
@@ -1081,7 +1134,11 @@ void serverLoop(int listenSock) {
         } else if (activity == 0) {
             logMessage("INFO", "No activity detected in 60 seconds, checking connections.");
             // Check if any servers haven't sent KEEPALIVE in 120 seconds
-            monitorKeepAlive();  
+            monitorKeepAlive();
+
+            // Periodically remove expired blocks
+            removeExpiredBlocks();
+
             continue;
         }
 
@@ -1149,111 +1206,6 @@ void signalHandler(int signum) {
     exit(signum);  // Exit with the signal code
 }
 
-// Function to ensure the server connects to at least 3 other servers using the same bound socket
-void ensureMinimumConnections(int sockfd) {
-    int connectedCount = 0;
-    std::vector<int> triedIndexes;
-    
-    while (connectedCount < 3 && triedIndexes.size() < serverList.size()) {
-        for (auto &server : serverList) {
-            if (connectedServers.find(server.sockfd) == connectedServers.end()) {
-                // Attempt to connect using the already bound socket (sockfd)
-                int result = tryToConnectUsingBoundSocket(sockfd, server.ipAddress, server.port);
-                if (result == 0) {
-                    server.sockfd = sockfd;  // Reuse the bound socket
-                    connectedServers[sockfd] = server;
-                    connectedCount++;
-                    logMessage("INFO", "Successfully connected to " + server.ipAddress + ":" + std::to_string(server.port));
-
-                    // Send HELO command with retry logic
-                    sendHELOCommandWithRetry(sockfd);
-                    receiveHELOResponse(sockfd);  // Get SERVERS response
-                } else {
-                    logMessage("ERROR", "Failed to connect to server " + server.ipAddress);
-                }
-            }
-            triedIndexes.push_back(server.port);
-        }
-    }
-    
-    if (connectedCount < 3) {
-        logMessage("WARNING", "Less than 3 server connections established.");
-    } else {
-        logMessage("INFO", "Successfully connected to at least 3 servers.");
-    }
-}
-
-// Retry connection to failed servers every 30 seconds
-void retryFailedConnections() {
-    for (auto &server : serverList) {
-        if (connectedServers.find(server.sockfd) == connectedServers.end()) {
-            logMessage("INFO", "Attempting to reconnect to server " + server.ipAddress + " on port " + std::to_string(server.port));
-
-            int sock = socket(AF_INET, SOCK_STREAM, 0);
-            if (sock == -1) {
-                logMessage("ERROR", "Failed to create socket");
-                continue;
-            }
-
-            int opt = 1;
-            if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
-                logMessage("ERROR", "Failed to set socket options");
-                close(sock);
-                continue;
-            }
-
-            // Bind the client socket to the same port as the server's listening socket
-            struct sockaddr_in localAddr;
-            memset(&localAddr, 0, sizeof(localAddr));
-            localAddr.sin_family = AF_INET;
-            localAddr.sin_addr.s_addr = INADDR_ANY;
-            localAddr.sin_port = htons(port);
-
-            if (bind(sock, (struct sockaddr*)&localAddr, sizeof(localAddr)) == -1) {
-                logMessage("ERROR", "Failed to bind to local port " + std::to_string(port));
-                close(sock);
-                continue;
-            }
-
-            // Delay to ensure the port is fully registered
-            logMessage("DEBUG", "Introducing delay to ensure proper port registration");
-            sleep(1);
-
-            // Set up the remote server address
-            struct sockaddr_in serverAddr;
-            memset(&serverAddr, 0, sizeof(serverAddr));
-            serverAddr.sin_family = AF_INET;
-            serverAddr.sin_port = htons(server.port);
-
-            if (inet_pton(AF_INET, server.ipAddress.c_str(), &serverAddr.sin_addr) <= 0) {
-                logMessage("ERROR", "Invalid remote address: " + server.ipAddress);
-                close(sock);
-                continue;
-            }
-
-            if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
-                logMessage("ERROR", "Failed to connect to server " + server.ipAddress + ":" + std::to_string(server.port));
-                close(sock);
-                continue;
-            }
-
-            server.sockfd = sock;
-            connectedServers[sock] = server;
-            logMessage("INFO", "Reconnected to server " + server.ipAddress + " on port " + std::to_string(server.port));
-
-            sendHELOCommandWithRetry(sock);
-        }
-    }
-}
-
-// Ensure periodic connection retries
-void periodicConnectionRetries() {
-    while (true) {
-        retryFailedConnections();
-        std::this_thread::sleep_for(std::chrono::seconds(30));  // Retry every 30 seconds
-    }
-}
-
 // Start periodic keep-alive messages to all connected servers
 void startKeepAliveLoop() {
     while (true) {
@@ -1266,16 +1218,24 @@ int main(int argc, char *argv[]) {
     // Ignore SIGPIPE to prevent crashes when writing to closed sockets
     signal(SIGPIPE, SIG_IGN);
 
-    if (argc != 5) {
-        std::cerr << "Usage: ./tsamgroup1 SERVER_PORT CONNECTION_SERVER_IP CONNECTION_SERVER_PORT_START CONNECTION_SERVER_PORT_END" << std::endl;
+    if (argc != 6) {
+        std::cerr << "Usage: ./tsamgroup1 SERVER_NAME SERVER_PORT CONNECTION_SERVER_IP CONNECTION_SERVER_PORT_START CONNECTION_SERVER_PORT_END" << std::endl;
         return EXIT_FAILURE;
     }
 
     // Assign command-line arguments
-    port = atoi(argv[1]);  // Use the original port value for internal logic
-    connectedServersIPs = argv[2];
-    int connectionServerPortStart = atoi(argv[3]);
-    int connectionServerPortEnd = atoi(argv[4]);
+    currentServerName = std::string("A5_") + argv[1];  // Pass the group number as part of the server name
+    port = atoi(argv[2]);  // Port value from the second argument
+    connectedServersIPs = argv[3];
+    int connectionServerPortStart = atoi(argv[4]);
+    int connectionServerPortEnd = atoi(argv[5]);
+
+    // Check if the requested port is available
+    if (!isPortAvailable(port)) {
+        logMessage("WARNING", "Port " + std::to_string(port) + " is not available. Trying to find another available port starting from 4000...");
+        port = findFreePort(4000);  // Call findFreePort starting at 4000 if requested port is not available
+        logMessage("INFO", "Server will use available port: " + std::to_string(port));
+    }
 
     // Register signal handlers to handle interruptions (Ctrl+C, SIGTERM, SIGTSTP)
     signal(SIGINT, signalHandler);
@@ -1334,10 +1294,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    logMessage("INFO", "Server started on port " + std::to_string(port));
-
-    // Ensure that we connect to at least 3 other servers
-    ensureMinimumConnections(listenSock);
+    logMessage("INFO", "Server " + currentServerName + " started on port " + std::to_string(port));
 
     // Start the thread for periodic keep-alive messages
     std::thread keepAliveThread(startKeepAliveLoop);
