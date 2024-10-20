@@ -1,0 +1,3 @@
+[Sun Oct 20 15:38:11 2024] [INFO] Interrupt signal (20) received. Shutting down the server.
+[Sun Oct 20 15:38:11 2024] [INFO] Listening socket closed.
+[Sun Oct 20 15:38:11 2024] [INFO] Closing log file.
