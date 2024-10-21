@@ -623,7 +623,6 @@ ssize_t sendWithLogging(int sockfd, const std::string &message) {
         logMessage("ERROR", "Failed to send message on socket " + std::to_string(sockfd));
     } else {
         logMessage("INFO", "Sent message on socket " + std::to_string(sockfd) + ": " + message);
-        logMessage("DEBUG", "Hex dump of sent message: " + stringToHex(message));
     }
     return bytesSent;
 }
@@ -642,7 +641,6 @@ ssize_t recvWithLogging(int sockfd, char *buffer, size_t bufferSize) {
             hexDump << std::hex << std::setw(2) << std::setfill('0') << (int)(unsigned char)buffer[i] << " ";
         }
         logMessage("INFO", "Bytes received on socket " + std::to_string(sockfd) + ": " + std::to_string(bytesReceived));
-        logMessage("DEBUG", "Hex dump of received message: " + stringToHex(receivedMsg));
     }
     return bytesReceived;
 }
@@ -772,31 +770,6 @@ void sendServersList(int sockfd) {
 
     // Add the current server to the uniqueServers set
     uniqueServers.insert(currentServerName + "," + currentServerIP + "," + std::to_string(port));
-
-    // Debug: Print the current connectedServers list
-    logMessage("DEBUG", "Connected servers list before adding new entries:");
-    for (const auto& connectedServer : connectedServers) {
-        const ServerInfo& serverInfo = connectedServer.second; // Access the ServerInfo from the map
-        std::string serverDetails = serverInfo.groupID + "," + serverInfo.ipAddress + "," + std::to_string(serverInfo.port);
-        logMessage("DEBUG", serverDetails);
-
-        if (uniqueServers.find(serverDetails) == uniqueServers.end()) {
-            uniqueServers.insert(serverDetails);
-            response << ";" << serverDetails;
-        }
-    }
-
-    // Debug: Print the current serverList before modifying it
-    logMessage("DEBUG", "ServerList before adding to SERVERS list:");
-    for (const auto& server : serverList) {
-        std::string serverDetails = server.groupID + "," + server.ipAddress + "," + std::to_string(server.port);
-        logMessage("DEBUG", serverDetails);
-
-        if (uniqueServers.find(serverDetails) == uniqueServers.end()) {
-            uniqueServers.insert(serverDetails);
-            response << ";" << serverDetails;
-        }
-    }
 
     // Frame the message with SOH and EOT
     std::string framedResponse = frameMessage(response.str());
@@ -1080,8 +1053,6 @@ bool isInQueue(const std::string& groupID) {
 }
 
 void processStatusResponse(const std::string& statusResp) {
-    logMessage("DEBUG", "Entering processStatusResponse with message: " + statusResp);
-
     std::vector<std::string> responses = splitString(statusResp, 'K');
     for (const auto& response : responses) {
         if (response.rfind("STATUSRESP", 0) == 0) {
@@ -1114,8 +1085,6 @@ void processStatusResponse(const std::string& statusResp) {
             }
         }
     }
-
-    logMessage("DEBUG", "Exiting processStatusResponse.");
 }
 
 void processMessageRequestQueue() {
@@ -1288,16 +1257,6 @@ void handleClientCommand(int clientSocket, const std::string &command, const std
 
     } else if (cmd.compare("GETMSGS") == 0 && tokens.size() == 2) {
         std::string groupID = trim(tokens[1]);
-
-        // Debugging: Print out all currently stored messages before processing
-        logMessage("DEBUG", "Current stored messages before processing GETMSGS:");
-        for (const auto& entry : storedMessages) {
-            logMessage("DEBUG", "GroupID: " + entry.first + ", Messages: " + std::to_string(entry.second.size()));
-            for (const auto& msg : entry.second) {
-                logMessage("DEBUG", "Message: " + msg);
-            }
-        }
-
         logMessage("INFO", "Processing GETMSGS for GroupID: " + groupID);
 
         // Send the locally stored messages if they exist
@@ -1629,8 +1588,8 @@ int main(int argc, char *argv[]) {
     keepAliveThread.detach();  // Start the KEEPALIVE thread
 
     // Start the thread for periodic STATUSREQ messages
-    std::thread statusReqThread(startStatusReqLoop);
-    statusReqThread.detach();  // Start the STATUSREQ thread
+    // std::thread statusReqThread(startStatusReqLoop);
+    // statusReqThread.detach();  // Start the STATUSREQ thread
 
     // Main server loop
     serverLoop(listenSock);
